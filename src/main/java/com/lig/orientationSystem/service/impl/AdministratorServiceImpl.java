@@ -140,9 +140,9 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             interviewerIPage = administratorMapper.readInterviewerAllReceive(page, station);
         }
         else {
-            if (status == 1){//接收
+            if (status == 1){//接收简历
                 receive = true;
-            }else {// 2 未面评
+            }else {// 2 不接收简历
                 receive = false;
             }
             interviewerIPage = administratorMapper.readInterviewer(page, station, receive);

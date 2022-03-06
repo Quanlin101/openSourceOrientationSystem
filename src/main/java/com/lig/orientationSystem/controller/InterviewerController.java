@@ -100,14 +100,17 @@ public class InterviewerController {
         String phoneNumber = null;
         int resumeId = -1;
         try {
-            phoneNumber = jsonObject.getString("PhoneNumber");
+            phoneNumber = jsonObject.getString("phoneNumber");
             resumeId = jsonObject.getInteger("resumeId");
         }catch (NullPointerException e){
             return R.error("json有误:)");
         }
 //        System.out.println("0.0");
-        interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId);
+        MethodPassWrapper methodPassWrapper = interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId);
 //        System.out.println("0.0");
+        if (!methodPassWrapper.isSuccess()){
+            return R.error(methodPassWrapper.getDesc());
+        }
         return R.ok();
     }
 }

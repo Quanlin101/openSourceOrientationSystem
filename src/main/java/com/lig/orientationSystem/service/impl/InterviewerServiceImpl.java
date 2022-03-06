@@ -49,7 +49,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
             checked = true;
             interview = true;
         }
-        IPage resumePage = interviewerMapper.readResume(page, userId, checked, interview);
+        IPage resumePage = interviewerMapper.readResume(page, userId, checked, interview,Resume.thisTimeProject);
         return resumePage;
     }
 
@@ -84,20 +84,25 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
     }
     @Transactional
     //移交简历
-    public String changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId){
+    public MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId){
         Interviewer interviewer = interviewerMapper.selectByPhoneNumber(postPhoneNumber);
+        Interviewer newInterviewer = interviewerMapper.selectByPhoneNumber(phoneNumber);
         int change = interviewer.getChange();
         if (change>0){
-           interviewerMapper.changeInterviewer(interviewer.getInterviewerId(), resumeId);
+            System.out.println(newInterviewer.getInterviewerId());
+           interviewerMapper.changeInterviewer(newInterviewer.getInterviewerId(), resumeId);
            change = change - 1;
            interviewerMapper.updateChange(interviewer.getInterviewerId(),change);
            interviewerMapper.upUndone(phoneNumber);
            interviewerMapper.downUndone(postPhoneNumber);
         }
         else {
-            return "您已经没有转送简历的机会，不能转送";
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("您已经没有转送机会:)");
+            return methodPassWrapper;
         }
-        return "转送成功";
+        methodPassWrapper.setSuccess(true);
+        return methodPassWrapper;
     }
 
     @Value("${wx.agentid}")

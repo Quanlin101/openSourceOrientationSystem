@@ -52,7 +52,8 @@ public class AdministratorController {
     //简历查看
     @PassToken
     @GetMapping("/resume/{current}/{size}")
-    public R readResume(@PathVariable int current, @PathVariable int size, @RequestParam String project, @RequestParam String station, @RequestParam int status){
+    public R readResume(@PathVariable int current, @PathVariable int size, @RequestParam String station, @RequestParam int status){
+        String project = Resume.thisTimeProject;
         IPage<Resume> resumeIPage = administratorService.readResume(current, size, project, station, status);
         return R.ok(resumeIPage);
     }

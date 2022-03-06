@@ -37,6 +37,12 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
     @Transactional(rollbackFor = Exception.class)
     public MethodPassWrapper submit(Resume resume) {
 
+        int exist = intervieweeMapper.selectInterviewerByStation(resume.getStation());
+        if (exist == 0){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("该岗位暂时没有面试官");
+            return methodPassWrapper;
+        }
 
         //数据库受影响的行数
         int insert = intervieweeMapper.insert(resume);

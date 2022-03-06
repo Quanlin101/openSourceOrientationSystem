@@ -29,8 +29,8 @@ public interface InterviewerMapper extends BaseMapper<Interviewer> {
     @Select("select * from resume where resume_id in " +
             "(select resume_id from interviewer_resume where " +
             "interviewer_id = (select interviewer_id from interviewer where user_id = #{userId})) " +
-            "and checked = #{checked} and interview = #{interview}")
-    IPage<Resume> readResume(Page<Resume> resumePage, String userId, boolean checked, boolean interview);
+            "and checked = #{checked} and interview = #{interview} and project = #{project}")
+    IPage<Resume> readResume(Page<Resume> resumePage, String userId, boolean checked, boolean interview, String project);
 
     //保存面评
     @Update("update resume set evaluation = #{evaluation}, pass = #{pass} where resume_id = resumeId")
@@ -68,7 +68,7 @@ public interface InterviewerMapper extends BaseMapper<Interviewer> {
     @Update("update interviewer set undone_number = undone_number + 1, resume_number = resume_number + 1 where phone_number = #{phoneNumber}")
     void upUndone(String phoneNumber);
 
-    //查找没有完成所以简历处理的面试官
+    //查找没有完成所有简历处理的面试官
     @Select("select user_id from interviewer where undone_number > 0")
     String[] selectUndonePerson();
 
