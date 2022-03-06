@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lig.orientationSystem.controller.dto.DeliveryDataDTO;
+import com.lig.orientationSystem.controller.dto.ProjectDTO;
 import com.lig.orientationSystem.controller.dto.PushInCountDTO;
 import com.lig.orientationSystem.domain.Administrator;
 import com.lig.orientationSystem.domain.Interviewer;
@@ -54,6 +55,20 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     @Update("update interviewer set name = #{name}, station = #{station}, phone_number = #{phoneNumber} where phone_number = #{postPhoneNumber}")
     boolean changeInterviewer(String postPhoneNumber, String name, String station, String phoneNumber);
 
+    //添加项目
+    @Insert("insert into project values('2022春招')")
+    void addProject(String project);
+
+    //查询所有项目
+    @Select("select * from project")
+    ArrayList<String> selectAllProject();
+
+    //查询项目详情
+    @Select("select count(*) from resume where project = #{project} and pass = 0")
+    int selectProjectNoPAss(String project);
+    @Select("select count(*) from resume where project = #{project} and pass = 1")
+    int selectProjectPass(String project);
+
     //项目更新，重置转发简历数量
     @Update("UPDATE interviewer SET `change` = 3")
     void refreshChange();
@@ -75,6 +90,5 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     //展示内推人信息面板
     @Select("SELECT COUNT(*) `count`, push_in_man FROM `resume` GROUP BY push_in_man")
     ArrayList<PushInCountDTO> selectPushInMan();
-
 
 }

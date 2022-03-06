@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lig.orientationSystem.controller.dto.DataDetailsDTO;
-import com.lig.orientationSystem.controller.dto.DeliveryDataDTO;
-import com.lig.orientationSystem.controller.dto.MessageFromDTO;
-import com.lig.orientationSystem.controller.dto.PushInCountDTO;
+import com.lig.orientationSystem.controller.dto.*;
 import com.lig.orientationSystem.dao.AdministratorMapper;
 import com.lig.orientationSystem.domain.*;
 import com.lig.orientationSystem.service.AdministratorService;
@@ -16,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 @Service
 @Transactional
@@ -93,6 +88,31 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     public ArrayList<PushInCountDTO> showPushInMan() {
         ArrayList<PushInCountDTO> pushInCountDTOS = administratorMapper.selectPushInMan();
         return pushInCountDTOS;
+    }
+
+    //添加项目
+    @Override
+    public void addProject(String projectName) {
+        administratorMapper.addProject(projectName);
+    }
+
+    @Override
+    public ArrayList<ProjectDTO> showProject() {
+        ArrayList<String> projectList = administratorMapper.selectAllProject();
+        ArrayList<ProjectDTO> projectDTOArrayList = new ArrayList<>();
+        int pass;
+        int notPass;
+        for (String project:projectList){
+            ProjectDTO projectDTO = new ProjectDTO();
+            pass = administratorMapper.selectProjectPass(project);
+            notPass = administratorMapper.selectProjectNoPAss(project);
+            projectDTO.setName(project);
+            projectDTO.setPass(pass);
+            projectDTO.setNotPass(notPass);
+            projectDTO.setAll(pass+notPass);
+            projectDTOArrayList.add(projectDTO);
+        }
+        return projectDTOArrayList;
     }
 
     //简历管理 简历查看，状态查看

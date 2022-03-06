@@ -1,21 +1,10 @@
 package com.lig.orientationSystem.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lig.orientationSystem.controller.dto.DataDetailsDTO;
-import com.lig.orientationSystem.controller.dto.DeliveryDataDTO;
-import com.lig.orientationSystem.controller.dto.MessageFromDTO;
-import com.lig.orientationSystem.controller.dto.PushInCountDTO;
-import com.lig.orientationSystem.dao.AdministratorMapper;
+import com.lig.orientationSystem.controller.dto.*;
 import com.lig.orientationSystem.domain.*;
-import com.lig.orientationSystem.until.AccessTokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public interface AdministratorService extends IService<Administrator> {
@@ -54,6 +43,12 @@ public interface AdministratorService extends IService<Administrator> {
     //修改面试官是否能接收简历
     void isReceiveResume(String phoneNumber, Boolean isReceive);
 
+    //添加项目
+    void addProject(String projectName);
+
+    //展示项目
+    ArrayList<ProjectDTO> showProject();
+
     //上下移动编辑岗位
     MethodPassWrapper changeStation(int code, int number);
     //编辑岗位
@@ -67,4 +62,6 @@ public interface AdministratorService extends IService<Administrator> {
 
     //内推人数据面板
     ArrayList<PushInCountDTO> showPushInMan();
+
+
 }

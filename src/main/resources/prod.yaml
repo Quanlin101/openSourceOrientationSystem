@@ -1,0 +1,54 @@
+server:
+  port: 80
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: OrientationSystem
+
+  # mysql数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1wlxb572rw67ecvho.mysql.rds.aliyuncs.com:3306/orientation-system
+    username: orientation_system
+    password: ymyxpwVyykLFy8
+
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      #      单个文件大小限制
+      max-file-size: 10MB
+      #      总文件大小限制
+      max-request-size: 10MB
+  #  视图解析器后缀
+  mvc:
+    view:
+      suffix: .html
+
+mybatis-plus:
+  configuration:
+    #    日志配置，将运行的SQL语句打印在控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #    枚举类配置：扫描枚举类所在的包
+  type-enums-package: com.lig.orientationSystem.domain.enums
+
+file:
+  oss:
+    # 对应oss的endpoint外网域名
+    endpoint: oss-cn-beijing.aliyuncs.com
+    # 对应oss的bucket名称
+    bucket-name: orientation-system
+    # 操作oss的用户密钥id
+    access-key-id: LTAI5tNo5wLcsmNYfvSrwaLS
+    # 操作oss的用户密钥密码
+    access-key-secret: xNoT0SsQSLHTwG6SfLi2QBowwzZpFq
+    #private  String filehost 目录;
+#    filehost: practice
+
+wx:
+  #企业id
+  corpid: wwe0d87bd068758439
+  #应用的通行证
+  corpsecret: 8rzkCkSRHCIVeo6msm2atNrYb_vEYsMtbO3wQmqet2A
+  #应用id
+  agentid: 1000003

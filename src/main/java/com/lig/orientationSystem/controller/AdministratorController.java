@@ -47,6 +47,12 @@ public class AdministratorController {
         return R.ok(pushInCountDTOS);
     }
 
+    //项目
+    @GetMapping("/project")
+    public R showProject(){
+        ArrayList<ProjectDTO> projectDTOArrayList = administratorService.showProject();
+        return R.ok(projectDTOArrayList);
+    }
     //简历管理 简历查看，状态查看
     //把所以简历的数据全传过去？还是每次都分页查？ 分页查qwq
     //简历查看
@@ -108,6 +114,7 @@ public class AdministratorController {
     @PostMapping("/addProject")
     public R addProject(@RequestParam String projectName){
         Resume.thisTimeProject = projectName;
+        administratorService.addProject(projectName);
         administratorService.refreshChange();
         return R.ok();
     }
