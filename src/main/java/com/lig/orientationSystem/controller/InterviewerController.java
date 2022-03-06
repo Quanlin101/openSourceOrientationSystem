@@ -30,6 +30,7 @@ public class InterviewerController {
     @PassToken
     @GetMapping("/read/{resumeId}")
     public R setRead(@PathVariable String resumeId){
+        System.out.println(resumeId);
         interviewerService.setRead(resumeId);
         return R.ok();
     }

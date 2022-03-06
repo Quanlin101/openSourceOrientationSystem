@@ -116,7 +116,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         contents.put("content","您收到一份简历，请及时处理。"+
                     "姓名:" + resume.getName()+
                      "性别:"+ gender
-                    +"<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId=/"+resume.getResumeId()+"\">点击已查看</a>"
+                    +"<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId="+resume.getResumeId()+"\">点击已查看</a>"
                 );
         String access_token = AccessTokenUtils.access_token;
 
