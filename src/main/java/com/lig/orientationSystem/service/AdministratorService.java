@@ -22,7 +22,7 @@ public interface AdministratorService extends IService<Administrator> {
     //简历管理 简历查看，状态查看
     //把所以简历的数据全传过去？还是每次都分页查？
     //简历查看
-    IPage<Resume> readResume(int current, int size, String project, String station, int status);
+    IPage<Resume> readResume(int current, int size, String projectName, String station, int status);
 
     //面试官管理 增删改面试官信息，是否接收简历， 接收简历数？
     //查看面试官

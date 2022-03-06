@@ -101,6 +101,8 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         }
         administratorMapper.addProject(projectName);
         int projectNumber = administratorMapper.selectProject(projectName);
+
+        System.out.println(projectNumber);
         if (projectNumber != 1){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("数据更新异常，添加失败");
@@ -132,14 +134,14 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     //简历管理 简历查看，状态查看
     //把所以简历的数据全传过去？还是每次都分页查？
     //简历查看
-    public IPage<Resume> readResume(int current, int size, String project, String station, int status) {
+    public IPage<Resume> readResume(int current, int size, String projectName, String station, int status) {
         Page<Resume> page = new Page(current, size);
         IPage<Resume> resumeIPage;
         boolean checked;
         boolean interview;
         boolean pass;
         if (status == 0){//全部状态
-            resumeIPage = administratorMapper.readResumeAllStatus(page, project, station);
+            resumeIPage = administratorMapper.readResumeAllStatus(page, station, projectName);
         }else {
             if (status == 1){//未查看
                 checked = false;
@@ -159,7 +161,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
                 interview = true;
                 pass = false;
             }
-            resumeIPage = administratorMapper.readResume(page, project, station, checked, interview, pass);
+            resumeIPage = administratorMapper.readResume(page, projectName, station, checked, interview, pass);
         }
         return resumeIPage;
     }
