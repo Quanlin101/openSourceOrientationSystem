@@ -44,7 +44,7 @@ public interface AdministratorService extends IService<Administrator> {
     void isReceiveResume(String phoneNumber, Boolean isReceive);
 
     //添加项目
-    void addProject(String projectName);
+    MethodPassWrapper addProject(String projectName);
 
     //展示项目
     ArrayList<ProjectDTO> showProject();

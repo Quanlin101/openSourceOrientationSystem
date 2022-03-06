@@ -92,8 +92,22 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
 
     //添加项目
     @Override
-    public void addProject(String projectName) {
+    public MethodPassWrapper addProject(String projectName) {
+        int postNumber = administratorMapper.selectProject(projectName);
+        if (postNumber == 1){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("已有该项目，不能重复添加");
+            return methodPassWrapper;
+        }
         administratorMapper.addProject(projectName);
+        int projectNumber = administratorMapper.selectProject(projectName);
+        if (projectNumber != 1){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("数据更新异常，添加失败");
+            return methodPassWrapper;
+        }
+        methodPassWrapper.setSuccess(true);
+        return methodPassWrapper;
     }
 
     @Override

@@ -68,6 +68,9 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     int selectProjectNoPAss(String project);
     @Select("select count(*) from resume where project = #{project} and pass = 1")
     int selectProjectPass(String project);
+    //验证添加
+    @Select("select count(*) from project")
+    int selectProject(String projectName);
 
     //项目更新，重置转发简历数量
     @Update("UPDATE interviewer SET `change` = 3")
@@ -90,5 +93,6 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     //展示内推人信息面板
     @Select("SELECT COUNT(*) `count`, push_in_man FROM `resume` GROUP BY push_in_man")
     ArrayList<PushInCountDTO> selectPushInMan();
+
 
 }

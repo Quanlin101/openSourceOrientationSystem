@@ -112,9 +112,19 @@ public class AdministratorController {
 
     //项目管理 添加项目，更新面试官的可移交次数
     @PostMapping("/addProject")
-    public R addProject(@RequestParam String projectName){
+    public R addProject(@RequestBody JSONObject jsonObject){
+        String projectName;
+
+        try {
+            projectName = jsonObject.getString("projectName");
+        }catch (Exception e){
+            return R.error("项目名称异常，修改失败");
+        }
         Resume.thisTimeProject = projectName;
-        administratorService.addProject(projectName);
+        MethodPassWrapper methodPassWrapper = administratorService.addProject(projectName);
+        if (!methodPassWrapper.isSuccess()){
+            return R.error(methodPassWrapper.getDesc());
+        }
         administratorService.refreshChange();
         return R.ok();
     }
