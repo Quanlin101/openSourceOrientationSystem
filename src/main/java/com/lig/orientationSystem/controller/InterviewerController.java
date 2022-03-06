@@ -73,7 +73,9 @@ public class InterviewerController {
             resumeId = jsonObject.getInteger("resumeId");
             evaluation = jsonObject.getString("evaluation");
             pass = jsonObject.getBoolean("pass");
+
         }catch (NullPointerException e){
+            System.out.println(jsonObject);
             return R.error("json有误:)");
         }
         MethodPassWrapper success = interviewerService.saveEvaluation(resumeId, evaluation, pass);

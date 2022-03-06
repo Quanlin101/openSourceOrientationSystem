@@ -120,8 +120,11 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         }
         contents.put("content","您收到一份简历，请及时处理。"+
                     "姓名:" + resume.getName()+
-                     "性别:"+ gender
-                    +"<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId="+resume.getResumeId()+"\">点击已查看</a>"
+                     "性别:"+ gender +"\n"
+                    +"<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId="+resume.getResumeId()+"\">点击已查看</a>\n"
+                    +"<a href=\"http://weather-report.xdwizz.top/#/interviewer/fill?name="+resume.getName()+"&gender=" + resume.getGender()
+                        +"&major="+resume.getMajor()+"&resumeId="+resume.getResumeId()+"&grade="+resume.getGrade()+"\">点击面评</a>"
+
                 );
         String access_token = AccessTokenUtils.access_token;
 

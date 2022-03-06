@@ -33,7 +33,7 @@ public interface InterviewerMapper extends BaseMapper<Interviewer> {
     IPage<Resume> readResume(Page<Resume> resumePage, String userId, boolean checked, boolean interview, String project);
 
     //保存面评
-    @Update("update resume set evaluation = #{evaluation}, pass = #{pass} where resume_id = resumeId")
+    @Update("update resume set evaluation = #{evaluation}, pass = #{pass}, interview = 1 where resume_id = #{resumeId}")
     boolean saveEvaluation(int resumeId, String evaluation, boolean pass);
 
     //移交面评
