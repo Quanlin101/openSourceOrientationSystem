@@ -10,11 +10,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 数据库连接地址
-    url: jdbc:mysql://rm-bp1wlxb572rw67ecvho.mysql.rds.aliyuncs.com:3306/orientation-system
+#    url: jdbc:mysql://rm-bp1wlxb572rw67ecvho.mysql.rds.aliyuncs.com:3306/orientation-system
+    url: jdbc:mysql://localhost:3306/orientationsystem
     # 数据库用户名
-    username: orientation_system
+#    username: orientation_system
+    username: root
     # 数据库密码
-    password: ymyxpwVyykLFy8
+#    password: ymyxpwVyykLFy8
+    password: root
 
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:

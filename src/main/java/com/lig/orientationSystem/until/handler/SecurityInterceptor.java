@@ -67,7 +67,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
                     return false;
                 }
             }
-            System.out.println(token);
+//            System.out.println(token);
             Map<String, Claim> datas = JWTUtils.validateToken(token);
             if (datas == null){
                 response.setCharacterEncoding("UTF-8");
@@ -82,6 +82,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
                 out.append(res.toString());
                 return false;
             }
+//            System.out.println(datas);
             try {
                 String UserId = datas.get("UserId").asString();
                 request.setAttribute("UserId", UserId);

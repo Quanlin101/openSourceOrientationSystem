@@ -27,9 +27,9 @@ public class InterviewerController {
     InterviewerServiceImpl interviewerService;
 
     //查看刚发过来的简历设置已读
-    @PassToken
     @GetMapping("/read/{resumeId}")
     public R setRead(@PathVariable String resumeId){
+
 //        System.out.println(resumeId);
         interviewerService.setRead(resumeId);
         return R.ok();
@@ -47,16 +47,18 @@ public class InterviewerController {
 
     //分页查询简历
     //未读，未提交面评，已处理
-    @PassToken
     @GetMapping("/{current}/{size}/{status}")
     public R queryTest(HttpServletRequest request, @PathVariable int current, @PathVariable int size, @PathVariable int status){
         String token = request.getHeader("Authorization");
 //        System.out.println("token:" + token);
-//        Map<String, Claim> claimMap = JWTUtils.validateToken(token);
-//
+        Map<String, Claim> claimMap = JWTUtils.validateToken(token);
+//        if (claimMap == null){
+//            R r = new R(false,2,"token过期",null);
+//            return r;
+//        }
 //        System.out.println("claimMap" + claimMap.toString());
-//        String userId = claimMap.get("UserId").asString();
-        String userId = "Lig..Wen";
+        String userId = claimMap.get("UserId").asString();
+//        String userId = "Lig..Wen";
         IPage<Resume> resumeIPage = interviewerService.readResume(userId, current, size, status);
         return R.ok(resumeIPage);
     }
@@ -64,9 +66,16 @@ public class InterviewerController {
     //提交面评
     @PostMapping
     public R saveEvaluation(@RequestBody JSONObject jsonObject){
-        int resumeId = jsonObject.getInteger("resumeId");
-        String evaluation = jsonObject.getString("evaluation");
-        boolean pass = jsonObject.getBoolean("pass");
+        int resumeId;
+        String evaluation;
+        boolean pass;
+        try {
+            resumeId = jsonObject.getInteger("resumeId");
+            evaluation = jsonObject.getString("evaluation");
+            pass = jsonObject.getBoolean("pass");
+        }catch (NullPointerException e){
+            return R.error("json有误:)");
+        }
         MethodPassWrapper success = interviewerService.saveEvaluation(resumeId, evaluation, pass);
         if (!success.isSuccess()){
             return R.error(success.getDesc());
@@ -82,13 +91,23 @@ public class InterviewerController {
 //        System.out.println("claimMap" + claimMap.toString());
         String userId = claimMap.get("UserId").asString();
         Interviewer interviewer = interviewerService.getInterviewerByUserId(userId);
+        System.out.println(interviewer.toString());
         if (interviewer == null){
             return R.error("移交失败，UserId有误");
         }
         String postPhoneNumber = interviewer.getPhoneNumber();
-        String phoneNumber = jsonObject.getString("PhoneNumber");
-        int resumeId = jsonObject.getInteger("resumeId");
+
+        String phoneNumber = null;
+        int resumeId = -1;
+        try {
+            phoneNumber = jsonObject.getString("PhoneNumber");
+            resumeId = jsonObject.getInteger("resumeId");
+        }catch (NullPointerException e){
+            return R.error("json有误:)");
+        }
+//        System.out.println("0.0");
         interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId);
+//        System.out.println("0.0");
         return R.ok();
     }
 }
