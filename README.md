@@ -8,3 +8,7 @@
 docker build -t registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be .
 docker push registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be
 ```
+
+## other
+
+`src/main/resources/prod.yaml` 是生产环境使用的配置
