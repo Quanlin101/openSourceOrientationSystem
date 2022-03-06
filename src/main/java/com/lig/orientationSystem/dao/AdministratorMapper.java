@@ -20,7 +20,7 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
 
     //查看简历
     @Select("select * from resume where project = #{project} and station = #{station}")
-    IPage<Resume> readResumeAllStatus(Page<Resume> page, String project, String station);
+    IPage<Resume> readResumeAllStatus(Page<Resume> page, String station, String project);
     @Select("select * from resume " +
             "where project = #{project} and station = #{station} " +
             "and checked = #{checked} and interview = #{interview} and pass = #{pass}")
@@ -56,7 +56,7 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     boolean changeInterviewer(String postPhoneNumber, String name, String station, String phoneNumber);
 
     //添加项目
-    @Insert("insert into project values('2022春招')")
+    @Insert("insert into project values(#{project})")
     void addProject(String project);
 
     //查询所有项目
@@ -69,7 +69,7 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     @Select("select count(*) from resume where project = #{project} and pass = 1")
     int selectProjectPass(String project);
     //验证添加
-    @Select("select count(*) from project")
+    @Select("select count(*) from project where project = #{projectName}")
     int selectProject(String projectName);
 
     //项目更新，重置转发简历数量
