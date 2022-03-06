@@ -27,9 +27,13 @@ jobs:
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
         with:
-          region-id: "${{ env.REGION_ID }}"
-          access-key-id: "LTAI5tPrM5s6tYg3p7XfLDUR"
-          access-key-secret: "9WqpADbgGB8KKkbn6CbrgZQoV3xT0X"
+          login-server: 'registry.cn-chengdu.aliyuncs.com' # default: https://index.docker.io/v1/
+          username: 'xdwizz'
+          password: 'hfDGoKMpVuv9Up'
+          
+          # region-id: "${{ env.REGION_ID }}"
+          # access-key-id: "LTAI5tPrM5s6tYg3p7XfLDUR"
+          # access-key-secret: "9WqpADbgGB8KKkbn6CbrgZQoV3xT0X"
 
       # 1.2 Buid and push image to ACR
       - name: Build and push image to ACR
