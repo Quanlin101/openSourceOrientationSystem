@@ -64,7 +64,7 @@ public class IntervieweeController {
 //    文件上传jackson和MultipartFile序列化问题
     @PassToken
     @PostMapping
-    public R submit(@RequestPart("json") Resume resume, @RequestPart(value = "file",required = false) MultipartFile practice, HttpSession session) {
+    public R submit(@RequestPart("json") Resume resume, @RequestPart(value = "file",required = false) MultipartFile practice) {
         //MultiValueMap<String,String> resume
         if (resume == null) {
             return R.error("简历为空");

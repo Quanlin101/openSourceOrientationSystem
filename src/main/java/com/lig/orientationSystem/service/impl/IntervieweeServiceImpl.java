@@ -1,6 +1,7 @@
 package com.lig.orientationSystem.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lig.orientationSystem.controller.dto.R;
 import com.lig.orientationSystem.dao.IntervieweeMapper;
 import com.lig.orientationSystem.domain.Resume;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
@@ -37,8 +38,15 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
     @Transactional(rollbackFor = Exception.class)
     public MethodPassWrapper submit(Resume resume) {
 
-        int exist = intervieweeMapper.selectInterviewerByStation(resume.getStation());
-        if (exist == 0){
+        Resume existedResume = intervieweeMapper.queryResume(resume.getPhoneNumber());
+        if (existedResume!=null){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("该手机后在该项目中已经投递过简历，不能重复投递呦\n0.0");
+            return methodPassWrapper;
+        }
+
+        int existInterviewer = intervieweeMapper.selectInterviewerByStation(resume.getStation());
+        if (existInterviewer == 0){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("该岗位暂时没有面试官");
             return methodPassWrapper;
