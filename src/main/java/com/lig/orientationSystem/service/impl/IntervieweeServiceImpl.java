@@ -50,7 +50,7 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
         int existInterviewer = intervieweeMapper.selectInterviewerByStation(resume.getStation());
         if (existInterviewer == 0){
             methodPassWrapper.setSuccess(false);
-            methodPassWrapper.setDesc("该岗位暂时没有面试官");
+            methodPassWrapper.setDesc("该岗位暂时没有面试官:(");
             return methodPassWrapper;
         }
 

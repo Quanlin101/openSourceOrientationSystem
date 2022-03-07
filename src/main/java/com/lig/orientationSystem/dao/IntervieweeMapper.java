@@ -23,7 +23,7 @@ public interface IntervieweeMapper extends BaseMapper<Resume> {
     @Update("update interviewer set resume_number = resume_number + 1, undone_number = undone_number + 1 where interviewer_id = (select interviewer_id from interviewer_resume where resume_id = #{resumeId})")
     boolean updateResumeNumber(int resumeId);
 
-    @Select("select * from resume where `phone_number`=#{phoneNumber}")
+    @Select("select * from resume where `phone_number`= #{phoneNumber}")
     Resume queryResume(String phoneNumber);
 
     //保存文件url

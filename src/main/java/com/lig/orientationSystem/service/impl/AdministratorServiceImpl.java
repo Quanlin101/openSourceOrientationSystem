@@ -118,6 +118,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         ArrayList<ProjectDTO> projectDTOArrayList = new ArrayList<>();
         int pass;
         int notPass;
+
         for (String project:projectList){
             ProjectDTO projectDTO = new ProjectDTO();
             pass = administratorMapper.selectProjectPass(project);

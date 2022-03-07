@@ -71,6 +71,9 @@ public class IntervieweeController {
         }
         resume.setSubmit_time(new Date());
         MethodPassWrapper success = intervieweeService.submit(resume);
+        if (!success.isSuccess()){
+            return R.error(success.getDesc());
+        }
         if (resume.isHasPractice()) {
             if (practice != null){
 
@@ -85,10 +88,6 @@ public class IntervieweeController {
             }
         }
 
-        if (success.isSuccess()) {
-            return R.ok(resume.getResumeId());
-        } else {
-            return R.error(success.getDesc());
-        }
+        return R.ok();
     }
 }

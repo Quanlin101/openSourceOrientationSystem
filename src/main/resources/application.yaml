@@ -46,10 +46,14 @@ file:
     bucket-name: orientation-system
     # 操作oss的用户密钥id
     access-key-id: LTAI5t9KJijtYF2fsih2kiPi
+#                   LTAI5tBhctycSNMSgTRfNr96
     # 操作oss的用户密钥密码
     access-key-secret: U8w36el2tg1PqD0kJ3M9xzyNNIgNI1
+#                       Jsro7LNHfuNjR3V5yUGPUgRX7xg3En
     #private  String filehost 目录;
 #    filehost: practice
+
+
 
 
 
