@@ -5,7 +5,7 @@
 ## build
 
 ```sh
-docker build -t registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be .
+docker build -t registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be -f Dockerfile_cn .
 docker push registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be
 ```
 

@@ -40,9 +40,11 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
 
         Resume existedResume = intervieweeMapper.queryResume(resume.getPhoneNumber());
         if (existedResume!=null){
-            methodPassWrapper.setSuccess(false);
-            methodPassWrapper.setDesc("该手机后在该项目中已经投递过简历，不能重复投递呦\n0.0");
-            return methodPassWrapper;
+            if (Resume.thisTimeProject.equals(existedResume.getProject())){
+                methodPassWrapper.setSuccess(false);
+                methodPassWrapper.setDesc("一个项目每个手机号只能提交一次简历呦\n0.0");
+                return methodPassWrapper;
+            }
         }
 
         int existInterviewer = intervieweeMapper.selectInterviewerByStation(resume.getStation());
