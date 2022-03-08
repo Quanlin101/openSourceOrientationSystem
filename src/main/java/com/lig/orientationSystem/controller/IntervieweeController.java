@@ -76,18 +76,18 @@ public class IntervieweeController {
         }
         if (resume.isHasPractice()) {
             if (practice != null){
-
-                String fileURL = fileService.upload(practice, resume.getName());
-                if (fileURL == null){
-                    return R.error("文件上传失败");
+                String fileURL;
+                MethodPassWrapper methodPassWrapper= fileService.upload(practice, resume.getName());
+                if (!methodPassWrapper.isSuccess()){
+                    return R.error(methodPassWrapper.getDesc());
                 }
+                fileURL = (String)methodPassWrapper.getData();
                 intervieweeService.saveFileURL(resume.getPhoneNumber(),fileURL);
             }
             else {
-                return R.error("文件为空");
+                return R.error("文件为空,简历未能附带有效文件");
             }
         }
-
         return R.ok();
     }
 }

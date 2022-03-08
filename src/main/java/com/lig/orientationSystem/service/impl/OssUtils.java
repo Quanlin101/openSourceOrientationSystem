@@ -6,6 +6,7 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
+import com.lig.orientationSystem.domain.MethodPassWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class OssUtils {
     private String bucketName;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
-    public  String upload(MultipartFile multipartFile, String fileName){
+    MethodPassWrapper methodPassWrapper = new MethodPassWrapper<>();
+    public MethodPassWrapper upload(MultipartFile multipartFile, String fileName){
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         String datePath = format.format(new Date());
@@ -48,17 +50,24 @@ public class OssUtils {
             client.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
         }catch (OSSException oe){
             oe.printStackTrace();
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("oss上传文件异常，投递失败");
+            return methodPassWrapper;
         }catch (ClientException ce){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("oss上传文件异常，投递失败");
             ce.printStackTrace();
         } catch (IOException e) {
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("未知异常，投递失败");
             e.printStackTrace();
         }
 //        finally {
 //            //关闭
 //            client.shutdown();
 //        }
-        return fileURL;
+        methodPassWrapper.setSuccess(true);
+        methodPassWrapper.setData(fileURL);
+        return methodPassWrapper;
     }
-
-
 }
