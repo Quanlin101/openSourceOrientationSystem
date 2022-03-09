@@ -1,5 +1,6 @@
 #版本号
-version: 22.3.9.3
+set:
+  version: 22.3.9.3
 
 
 server:

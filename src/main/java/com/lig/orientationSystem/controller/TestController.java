@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/version")
 public class TestController {
 
-    @Value("${version}")
+    @Value("${set.version}")
     String version;
     @GetMapping
     public String test(){
