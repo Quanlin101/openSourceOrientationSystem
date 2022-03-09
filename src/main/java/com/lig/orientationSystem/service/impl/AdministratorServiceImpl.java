@@ -215,7 +215,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     public MethodPassWrapper addInterviewer(Interviewer interviewer) {
         methodPassWrapper = getUserId(interviewer.getPhoneNumber());
         if (!methodPassWrapper.isSuccess()) {
-            methodPassWrapper.setDesc("获取userid失败");
+            methodPassWrapper.setDesc("获取userid失败，请检查手机号是非为企业微信绑定");
             return methodPassWrapper;
         }
         System.out.println(String.valueOf(methodPassWrapper.getData()));

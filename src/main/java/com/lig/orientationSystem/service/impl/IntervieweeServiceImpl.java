@@ -7,6 +7,7 @@ import com.lig.orientationSystem.domain.Resume;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
 import com.lig.orientationSystem.service.IntervieweeService;
 import com.lig.orientationSystem.service.InterviewerService;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,15 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
     @Transactional(rollbackFor = Exception.class)
     public MethodPassWrapper submit(Resume resume) {
 
-        Resume existedResume = intervieweeMapper.queryResume(resume.getPhoneNumber());
+        Resume existedResume = null;
+        try {
+            existedResume = intervieweeMapper.queryResume(resume.getPhoneNumber(), Resume.thisTimeProject);
+        }catch (TooManyResultsException e){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("查询错误，该手机号已投递太多次简历！");
+            return methodPassWrapper;
+        }
+
         if (existedResume!=null){
             if (Resume.thisTimeProject.equals(existedResume.getProject())){
                 methodPassWrapper.setSuccess(false);
@@ -82,7 +91,7 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
     }
 
     public Resume queryResume(String phoneNumber) {
-        Resume queryResume = intervieweeMapper.queryResume(phoneNumber);
+        Resume queryResume = intervieweeMapper.queryResume(phoneNumber,Resume.thisTimeProject);
         return queryResume;
     }
 
