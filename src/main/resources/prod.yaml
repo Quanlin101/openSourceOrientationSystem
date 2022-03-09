@@ -1,3 +1,7 @@
+#版本号
+set:
+  version: 22.3.9.3
+
 server:
   port: 80
   servlet:
