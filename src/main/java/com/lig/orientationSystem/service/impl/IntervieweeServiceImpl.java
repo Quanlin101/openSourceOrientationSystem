@@ -3,6 +3,7 @@ package com.lig.orientationSystem.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lig.orientationSystem.controller.dto.R;
 import com.lig.orientationSystem.dao.IntervieweeMapper;
+import com.lig.orientationSystem.domain.Interviewer;
 import com.lig.orientationSystem.domain.Resume;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
 import com.lig.orientationSystem.service.IntervieweeService;
@@ -57,6 +58,9 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
         }
 
         int existInterviewer = intervieweeMapper.selectInterviewerByStation(resume.getStation());
+
+//        Interviewer interviewer = intervieweeMapper.getProperInterviewer();
+
         if (existInterviewer == 0){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("该岗位暂时没有面试官:(");

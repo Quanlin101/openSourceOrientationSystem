@@ -2,6 +2,7 @@ package com.lig.orientationSystem.dao;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lig.orientationSystem.domain.Interviewer;
 import com.lig.orientationSystem.domain.Resume;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,8 +14,11 @@ public interface IntervieweeMapper extends BaseMapper<Resume> {
     @Insert("insert into practice values(#{phoneNumber}, #{file})")
     void insertFile(String phoneNumber, byte[] file);
     //查看该岗位是否有面试官
-    @Select("select count(*) from `interviewer` where `station` = #{station}")
+    @Select("select count(*) from `interviewer` where `station` = #{station} and receive = 1")
     int selectInterviewerByStation(String station);
+
+//    @Select("((SELECT MIN(interviewer_id) FROM ( SELECT interviewer_id FROM interviewer WHERE resume_number = (SELECT MIN(resume_number) FROM (SELECT * FROM interviewer) t1 where receive = 1 and station = #{station})) t2 ))")
+//    Interviewer getProperInterviewer();
 
     //保存并自动分发
     @Insert("INSERT INTO interviewer_resume   VALUES(((SELECT MIN(interviewer_id) FROM ( SELECT interviewer_id FROM interviewer WHERE resume_number = (SELECT MIN(resume_number) FROM (SELECT * FROM interviewer) t1 where receive = 1 and station = #{station})) t2 )),  #{resumeId})")

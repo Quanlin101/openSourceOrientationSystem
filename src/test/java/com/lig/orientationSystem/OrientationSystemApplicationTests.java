@@ -51,4 +51,8 @@ class OrientationSystemApplicationTests {
     void test3() {
         administratorService.showDeliveryData();
     }
+
+    @Test
+    void test4() {interviewerService.delayEval();
+    }
 }
