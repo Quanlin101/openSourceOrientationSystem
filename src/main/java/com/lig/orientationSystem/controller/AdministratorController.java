@@ -80,7 +80,7 @@ public class AdministratorController {
         System.out.println(interviewer);
         MethodPassWrapper methodPassWrapper = administratorService.addInterviewer(interviewer);
         if (!methodPassWrapper.isSuccess()){
-            return R.error("无效的手机号");
+            return R.error(methodPassWrapper.getDesc());
         }
         return R.ok();
     }

@@ -119,7 +119,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
             gender = "女";
         }
         contents.put("content", "您收到一份简历，请及时处理。" +
-                "姓名:" + resume.getName() +
+                "\n姓名:" + resume.getName() +
                 "\n性别:" + gender +
                 "\n年级:" + resume.getGrade() +
                 "\n手机号:" + resume.getPhoneNumber() +
@@ -128,7 +128,8 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
                 "\n<a href=\""+ resume.getFileURL() + "\">点击查看项目经历</a>" +
                 "\n<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>"
                 + "\n<a href=\"http://weather-report.xdwizz.top/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender()
-                + "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>"
+                + "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>" +
+                "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/check\">点击进入面试官主页</a>"
 
         );
         String access_token = AccessTokenUtils.access_token;
@@ -160,7 +161,9 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="
                 + access_token;
         JSONObject content = new JSONObject();
-        content.put("content", "您有尚未处理的简历，请及时处理\n:)");
+        content.put("content", "您有尚未处理的简历，请及时处理" +
+                "\n:)" +
+                "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/check\">点击进入面试官主页</a>");
         JSONObject jsonObject = new JSONObject();
         String[] users = interviewerMapper.selectUndonePerson();
         String userString = "";

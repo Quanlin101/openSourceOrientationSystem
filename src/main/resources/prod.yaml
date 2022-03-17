@@ -1,6 +1,6 @@
 #版本号
 set:
-  version: 22.3.17.1
+  version: 22.3.18.1
 
 logging:
   file:
