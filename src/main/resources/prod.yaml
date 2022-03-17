@@ -1,6 +1,11 @@
 #版本号
 set:
-  version: 22.3.9.5
+  version: 22.3.17.1
+
+logging:
+  file:
+    name: lab.log
+
 
 server:
   port: 80
