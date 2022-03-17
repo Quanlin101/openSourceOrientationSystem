@@ -9,6 +9,8 @@ docker build -t registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system
 docker push registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be
 ```
 
+`docker build -t registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be -f Dockerfile_cn . && docker push registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be`
+
 ## other
 
 `src/main/resources/prod.yaml` 是生产环境使用的配置
