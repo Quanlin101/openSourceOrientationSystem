@@ -26,6 +26,10 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
             "and checked = #{checked} and interview = #{interview} and pass = #{pass}")
     IPage<Resume> readResume(Page<Resume> page, String project, String station, boolean checked, boolean interview, boolean pass);
 
+    //查看面试官是否存在
+    @Select("select count(*) from interviewer where phone_number = phoneNumber")
+    int interviewerExist(String phoneNumber);
+
     //查看面试官
     @Select("select name, phone_number, station,receive, resume_number from interviewer" +
             " where  station = #{station} and receive = #{receive}")
