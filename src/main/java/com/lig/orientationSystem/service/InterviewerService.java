@@ -17,7 +17,7 @@ public interface InterviewerService extends IService<Interviewer> {
     MethodPassWrapper saveEvaluation(int resumeId, String evaluation, boolean pass);
 
     //移交简历
-    MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId);
+    MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId, String userId);
 
     //WX推送消息收到简历的消息
     boolean sendMessage(String userId, Resume resume);
@@ -29,7 +29,7 @@ public interface InterviewerService extends IService<Interviewer> {
     void setRead(String resumeId);
 
     //设置已面试
-    MethodPassWrapper setCheck(String resumeId);
+    MethodPassWrapper setCheck(int resumeId);
 
     //添加未处理的简历数量
     void addUndone(String userId);

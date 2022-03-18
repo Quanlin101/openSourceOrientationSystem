@@ -54,9 +54,9 @@ public interface InterviewerMapper extends BaseMapper<Interviewer> {
     void setRead(String resumeId);
     //设置已面试
     @Update("update resume set checked = 1 where resume_id = #{resumeId}")
-    void setChecked(String resumeId);
+    void setChecked(int resumeId);
     @Select("select * from `resume` where resume_id = #{resume_id}")
-    Resume selectResumeById(String resumeId);
+    Resume selectResumeById(int resumeId);
 
 
 

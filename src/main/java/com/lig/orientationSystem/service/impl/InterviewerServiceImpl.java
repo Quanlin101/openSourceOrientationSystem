@@ -53,9 +53,10 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         return resumePage;
     }
 
-    //第一次查看简历，状态设为已读
-    public void checkResume() {
+    //设置已读
+    public void setRead(String resumeId) {
 
+        interviewerMapper.setRead(resumeId);
     }
 
     //写面评 + 是否通过
@@ -84,12 +85,21 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
 
     @Transactional
     //移交简历
-    public MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId) {
+    public MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId, String userId) {
         Interviewer interviewer = interviewerMapper.selectByPhoneNumber(postPhoneNumber);
         Interviewer newInterviewer = interviewerMapper.selectByPhoneNumber(phoneNumber);
+        Resume resume = interviewerMapper.selectResumeById(resumeId);
+        boolean send = sendMessage(userId,resume);
+
+        if (!send){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("移交简历无法推送:(");
+            return methodPassWrapper;
+        }
+
         int change = interviewer.getChange();
         if (change > 0) {
-            System.out.println(newInterviewer.getInterviewerId());
+//            System.out.println(newInterviewer.getInterviewerId());
             interviewerMapper.changeInterviewer(newInterviewer.getInterviewerId(), resumeId);
             change = change - 1;
             interviewerMapper.updateChange(interviewer.getInterviewerId(), change);
@@ -185,14 +195,9 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
 //        System.out.println(responseEntity);
     }
 
-    //设置已读
-    public void setRead(String resumeId) {
-
-        interviewerMapper.setRead(resumeId);
-    }
 
     //设置已面试
-    public MethodPassWrapper setCheck(String resumeId) {
+    public MethodPassWrapper setCheck(int resumeId) {
         Resume resume = interviewerMapper.selectResumeById(resumeId);
         if (resume == null) {
             methodPassWrapper.setSuccess(false);

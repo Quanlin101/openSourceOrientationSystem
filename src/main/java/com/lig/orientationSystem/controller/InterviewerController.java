@@ -36,7 +36,7 @@ public class InterviewerController {
     }
     //面试
     @GetMapping("/check/{resumeId}")
-    public R setCheck(@PathVariable String resumeId){
+    public R setCheck(@PathVariable int resumeId){
         MethodPassWrapper methodPassWrapper = interviewerService.setCheck(resumeId);
         if (!methodPassWrapper.isSuccess()){
             return R.error(methodPassWrapper.getDesc());
@@ -93,7 +93,7 @@ public class InterviewerController {
 //        System.out.println("claimMap" + claimMap.toString());
         String userId = claimMap.get("UserId").asString();
         Interviewer interviewer = interviewerService.getInterviewerByUserId(userId);
-        System.out.println(interviewer.toString());
+//        System.out.println(interviewer.toString());
         if (interviewer == null){
             return R.error("移交失败，UserId有误");
         }
@@ -108,7 +108,7 @@ public class InterviewerController {
             return R.error("json有误:)");
         }
 //        System.out.println("0.0");
-        MethodPassWrapper methodPassWrapper = interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId);
+        MethodPassWrapper methodPassWrapper = interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId, userId);
 //        System.out.println("0.0");
         if (!methodPassWrapper.isSuccess()){
             return R.error(methodPassWrapper.getDesc());
