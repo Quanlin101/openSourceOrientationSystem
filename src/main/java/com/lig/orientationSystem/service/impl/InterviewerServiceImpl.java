@@ -138,8 +138,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
                 "\n<a href=\""+ resume.getFileURL() + "\">点击查看项目经历</a>" +
                 "\n<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>"
                 + "\n<a href=\"http://weather-report.xdwizz.top/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender()
-                + "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>" +
-                "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/check\">点击进入面试官主页</a>"
+                + "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>"
 
         );
         String access_token = AccessTokenUtils.access_token;
@@ -172,8 +171,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
                 + access_token;
         JSONObject content = new JSONObject();
         content.put("content", "您有尚未处理的简历，请及时处理" +
-                "\n:)" +
-                "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/check\">点击进入面试官主页</a>");
+                "\n:)");
         JSONObject jsonObject = new JSONObject();
         String[] users = interviewerMapper.selectUndonePerson();
         String userString = "";
@@ -219,6 +217,5 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
     public void addUndone(String userId) {
         interviewerMapper.addUndone(userId);
     }
-
 
 }
