@@ -27,7 +27,7 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     IPage<Resume> readResume(Page<Resume> page, String project, String station, boolean checked, boolean interview, boolean pass);
 
     //查看面试官是否存在
-    @Select("select count(*) from interviewer where phone_number = phoneNumber")
+    @Select("select count(*) from interviewer where phone_number = #{phoneNumber}")
     int interviewerExist(String phoneNumber);
 
     //查看面试官
