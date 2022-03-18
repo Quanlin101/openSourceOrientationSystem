@@ -134,7 +134,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
                 "\n年级:" + resume.getGrade() +
                 "\n手机号:" + resume.getPhoneNumber() +
                 "\nQQ:" + resume.getQq() +
-                "\n自述" + resume.getPractice() +
+                "\n自述:" + resume.getPractice() +
                 "\n<a href=\""+ resume.getFileURL() + "\">点击查看项目经历</a>" +
                 "\n<a href=\"http://weather-report.xdwizz.top/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>"
                 + "\n<a href=\"http://weather-report.xdwizz.top/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender()
