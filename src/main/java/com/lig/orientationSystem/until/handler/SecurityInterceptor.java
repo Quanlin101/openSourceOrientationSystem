@@ -35,7 +35,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         System.out.println("handlerMethod:"+handlerMethod);
         Method method = handlerMethod.getMethod();
-//        System.out.println("method"+ method);
+        System.out.println("method"+ method);
 
         //判断是否需要JWT验证(是否有PassToken注解)
         boolean isCheck = true;//默认为全局验证
