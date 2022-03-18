@@ -17,7 +17,7 @@ public interface InterviewerService extends IService<Interviewer> {
     MethodPassWrapper saveEvaluation(int resumeId, String evaluation, boolean pass);
 
     //移交简历
-    MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId, String userId);
+    MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId);
 
     //WX推送消息收到简历的消息
     boolean sendMessage(String userId, Resume resume);

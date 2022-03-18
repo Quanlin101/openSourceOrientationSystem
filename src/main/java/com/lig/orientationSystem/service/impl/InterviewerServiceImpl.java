@@ -85,11 +85,12 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
 
     @Transactional
     //移交简历
-    public MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId, String userId) {
+    public MethodPassWrapper changeInterviewer(String postPhoneNumber, String phoneNumber, int resumeId) {
         Interviewer interviewer = interviewerMapper.selectByPhoneNumber(postPhoneNumber);
         Interviewer newInterviewer = interviewerMapper.selectByPhoneNumber(phoneNumber);
         Resume resume = interviewerMapper.selectResumeById(resumeId);
-        boolean send = sendMessage(userId,resume);
+
+        boolean send = sendMessage(newInterviewer.getUserId(),resume);
 
         if (!send){
             methodPassWrapper.setSuccess(false);

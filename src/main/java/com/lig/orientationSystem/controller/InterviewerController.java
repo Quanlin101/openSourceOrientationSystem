@@ -108,7 +108,7 @@ public class InterviewerController {
             return R.error("json有误:)");
         }
 //        System.out.println("0.0");
-        MethodPassWrapper methodPassWrapper = interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId, userId);
+        MethodPassWrapper methodPassWrapper = interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId);
 //        System.out.println("0.0");
         if (!methodPassWrapper.isSuccess()){
             return R.error(methodPassWrapper.getDesc());
