@@ -33,7 +33,8 @@ public class OssUtils {
         String fileURL = null;
 
         if(multipartFile == null){
-            return null;
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("文件不能为空呦^^");
         }
 
         try {
