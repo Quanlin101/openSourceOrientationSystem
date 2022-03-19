@@ -70,10 +70,7 @@ public class IntervieweeController {
             return R.error("简历为空");
         }
         resume.setSubmit_time(new Date());
-        MethodPassWrapper success = intervieweeService.submit(resume);
-        if (!success.isSuccess()){
-            return R.error(success.getDesc());
-        }
+
         if (resume.isHasPractice()) {
             if (practice != null){
                 String fileURL;
@@ -88,6 +85,11 @@ public class IntervieweeController {
                 return R.error("文件为空,简历未能附带有效文件");
             }
         }
+        MethodPassWrapper success = intervieweeService.submit(resume);
+        if (!success.isSuccess()){
+            return R.error(success.getDesc());
+        }
+
         return R.ok();
     }
 }
