@@ -40,6 +40,20 @@ public class StationList {
         }
         return false;
     }
+    /**
+     * 删除岗位
+     * @param station
+     */
+    public boolean delete(Station station){
+        for (int i=0; i < arrayList.size();++i){
+            if (arrayList.get(i).getName().equals(station.getName())){
+                arrayList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /***
      *上移和下移只操作服务器里的数据，序号由station在stationList的位置确定

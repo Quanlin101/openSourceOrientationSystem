@@ -6,6 +6,8 @@ import com.lig.orientationSystem.dao.AdministratorMapper;
 import com.lig.orientationSystem.dao.IntervieweeMapper;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
 import com.lig.orientationSystem.domain.Resume;
+import com.lig.orientationSystem.domain.Station;
+import com.lig.orientationSystem.domain.StationList;
 import com.lig.orientationSystem.service.impl.AdministratorServiceImpl;
 import com.lig.orientationSystem.service.impl.IntervieweeServiceImpl;
 import com.lig.orientationSystem.service.impl.InterviewerServiceImpl;
@@ -83,5 +85,13 @@ class OrientationSystemApplicationTests {
         resume.setStation("后端");
         intervieweeService.submit(resume);
 //        intervieweeMapper.distributeResume(1, "后端");
+    }
+    @Test
+    void test6() {
+        Station station = new Station();
+        System.out.println(StationList.arrayList);
+        station.setName("运营");
+        administratorService.deleteStation(station);
+        System.out.println(StationList.arrayList);
     }
 }

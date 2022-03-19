@@ -163,8 +163,18 @@ public class AdministratorController {
     //岗位添加
     @PassToken
     @PostMapping("/addStation")
-    public R changeStation(@RequestBody Station station){
+    public R addStation(@RequestBody Station station){
         MethodPassWrapper methodPassWrapper = administratorService.addStation(station);
+        if (!methodPassWrapper.isSuccess()){
+            return R.error(methodPassWrapper.getDesc());
+        }
+        return R.ok();
+    }
+    //删除面试官
+    @PassToken
+    @PostMapping("/deleteStation")
+    public R deleteStation(@RequestBody Station station){
+        MethodPassWrapper methodPassWrapper = administratorService.deleteStation(station);
         if (!methodPassWrapper.isSuccess()){
             return R.error(methodPassWrapper.getDesc());
         }

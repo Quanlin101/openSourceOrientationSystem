@@ -295,13 +295,30 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         boolean exist = stationList.exist(station.getName());
         if (exist) {
             methodPassWrapper.setSuccess(false);
-            methodPassWrapper.setDesc("该岗位已存在:(");
+            methodPassWrapper.setDesc("该岗位已存在\n:(");
             return methodPassWrapper;
         }
         stationList.arrayList.add(station);
         methodPassWrapper.setSuccess(true);
         return methodPassWrapper;
     }
+    //删除岗位
+    public MethodPassWrapper deleteStation(Station station) {
+        boolean exist = stationList.exist(station.getName());
+        if (!exist) {
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("该岗位不存在\n:(");
+            return methodPassWrapper;
+        }
+        boolean delete = stationList.delete(station);
+        if (!delete){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("删除失败，未查询到岗位\n:(");
+        }
+        methodPassWrapper.setSuccess(true);
+        return methodPassWrapper;
+    }
+
 
     //项目更新时更新面试官移交简历次数
     public void refreshChange() {
