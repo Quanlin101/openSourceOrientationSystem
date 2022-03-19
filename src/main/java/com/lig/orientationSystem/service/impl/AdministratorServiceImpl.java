@@ -304,6 +304,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     }
     //删除岗位
     public MethodPassWrapper deleteStation(Station station) {
+        System.out.println(StationList.arrayList);
         boolean exist = stationList.exist(station.getName());
         if (!exist) {
             methodPassWrapper.setSuccess(false);
