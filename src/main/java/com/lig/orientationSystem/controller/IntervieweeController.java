@@ -90,7 +90,6 @@ public class IntervieweeController {
         if (!success.isSuccess()){
             return R.error(success.getDesc());
         }
-        resume.setFileURL(success.getData().toString());
         return R.ok();
     }
 }

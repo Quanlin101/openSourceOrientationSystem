@@ -52,6 +52,7 @@ public class Resume implements Serializable {
     //自述（实习经历）
     private String practice;
     //实习经历路径
+    @TableField("`fileURL`")
     private String fileURL;
     //提交简历时间
     private Date submit_time;
