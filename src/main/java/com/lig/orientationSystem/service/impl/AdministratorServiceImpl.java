@@ -272,7 +272,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("已经不能向上移了呦^^");
             return methodPassWrapper;
-        }else if (code == 1&&number==stationList.arrayList.size()){
+        }else if (code == 0&&number==stationList.arrayList.size()){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("已经不能向下移了呦^^");
             return methodPassWrapper;
