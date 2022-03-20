@@ -43,6 +43,9 @@ public interface AdministratorService extends IService<Administrator> {
     //修改面试官是否能接收简历
     void isReceiveResume(String phoneNumber, Boolean isReceive);
 
+    //测试更新面试官简历数
+    public void forceUpdate();
+
     //添加项目
     MethodPassWrapper addProject(String projectName);
 

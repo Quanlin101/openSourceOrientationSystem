@@ -59,6 +59,13 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     @Update("update interviewer set name = #{name}, station = #{station}, phone_number = #{phoneNumber} where phone_number = #{postPhoneNumber}")
     boolean changeInterviewer(String postPhoneNumber, String name, String station, String phoneNumber);
 
+    //强制更新
+    @Update("update interviewer set  resume_number=(select count(*) from interviewer_resume WHERE interviewer_id=#{interviewerId}), undone_number=(select count(*) from interviewer_resume WHERE interviewer_id=#{interviewerId}) where interviewer_id=#{interviewerId}")
+    void forceUpdate(int interviewerId);
+    //查询所有面试官id
+    @Select("select interviewer_id from interviewer")
+    ArrayList<Integer> selectAllInterviewerId();
+
     //添加项目
     @Insert("insert into project values(#{project})")
     void addProject(String project);

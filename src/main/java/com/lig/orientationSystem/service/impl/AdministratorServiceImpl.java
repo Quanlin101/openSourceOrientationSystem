@@ -256,10 +256,17 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         administratorMapper.isReceiveResume(phoneNumber, isReceive);
     }
 
+    //更新面试官的简历数，测试更新用，这是把收到简历数和未处理完简历数更新为一致，慎用
+    public void forceUpdate(){
+        ArrayList<Integer> interviewerIdList = administratorMapper.selectAllInterviewerId();
+        for (int id:interviewerIdList) {
+            administratorMapper.forceUpdate(id);
+        }
+    }
+
     //简历表单修改 （好像和我莫得关系0.0）
     //岗位修改
     StationList stationList = new StationList();
-
     public MethodPassWrapper changeStation(int code, int number) {
         if (code == 0) {
             stationList.up(number);
