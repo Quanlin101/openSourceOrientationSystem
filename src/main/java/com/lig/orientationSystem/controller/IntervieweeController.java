@@ -80,6 +80,7 @@ public class IntervieweeController {
                 }
                 fileURL = (String)methodPassWrapper.getData();
                 intervieweeService.saveFileURL(resume.getPhoneNumber(),fileURL);
+                resume.setFileURL(fileURL);
             }
             else {
                 return R.error("文件为空,简历未能附带有效文件");

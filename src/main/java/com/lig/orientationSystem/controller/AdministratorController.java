@@ -170,7 +170,7 @@ public class AdministratorController {
         }
         return R.ok();
     }
-    //删除面试官
+    //删除岗位
     @PassToken
     @PostMapping("/deleteStation")
     public R deleteStation(@RequestBody Station station){

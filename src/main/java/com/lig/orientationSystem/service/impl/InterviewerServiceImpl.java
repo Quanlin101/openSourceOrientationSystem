@@ -129,19 +129,36 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         } else {
             gender = "女";
         }
-        contents.put("content", "您收到一份简历，请及时处理。" +
-                "\n姓名:" + resume.getName() +
-                "\n性别:" + gender +
-                "\n年级:" + resume.getGrade() +
-                "\n手机号:" + resume.getPhoneNumber() +
-                "\nQQ:" + resume.getQq() +
-                "\n自述:" + resume.getPractice() +
-                "\n<a href=\""+ resume.getFileURL() + "\">点击查看项目经历</a>" +
-                "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>" +
-                "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender() +
-                "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>"
+        if (resume.isHasPractice()){
+            contents.put("content", "您收到一份简历，请及时处理。" +
+                    "\n姓名:" + resume.getName() +
+                    "\n性别:" + gender +
+                    "\n年级:" + resume.getGrade() +
+                    "\n手机号:" + resume.getPhoneNumber() +
+                    "\nQQ:" + resume.getQq() +
+                    "\n自述:" + resume.getPractice() +
+                    "\n<a href=\""+ resume.getFileURL() + "\">点击查看项目经历</a>" +
+                    "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>" +
+                    "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender() +
+                    "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>"
 
-        );
+            );
+        }
+        else {
+            contents.put("content", "您收到一份简历，请及时处理。" +
+                    "\n姓名:" + resume.getName() +
+                    "\n性别:" + gender +
+                    "\n年级:" + resume.getGrade() +
+                    "\n手机号:" + resume.getPhoneNumber() +
+                    "\nQQ:" + resume.getQq() +
+                    "\n自述:" + resume.getPractice() +
+                    "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>" +
+                    "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender() +
+                    "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>"
+
+            );
+        }
+
         String access_token = AccessTokenUtils.access_token;
 
 
