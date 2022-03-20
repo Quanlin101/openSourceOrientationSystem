@@ -268,7 +268,16 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     //岗位修改
     StationList stationList = new StationList();
     public MethodPassWrapper changeStation(int code, int number) {
-        if (code == 0) {
+        if (code == 0&&number==1){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("已经不能向上移了呦^^");
+            return methodPassWrapper;
+        }else if (code == 1&&number==stationList.arrayList.size()){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("已经不能向下移了呦^^");
+            return methodPassWrapper;
+        }
+        else if (code == 0) {
             stationList.up(number);
         } else if (code == 1) {
             stationList.down(number);
