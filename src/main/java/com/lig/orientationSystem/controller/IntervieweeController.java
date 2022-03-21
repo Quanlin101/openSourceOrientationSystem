@@ -69,7 +69,7 @@ public class IntervieweeController {
         if (resume == null) {
             return R.error("简历为空");
         }
-        resume.setSubmit_time(new Date());
+        resume.setSubmitTime(new Date());
 
         if (resume.isHasPractice()) {
             if (practice != null){

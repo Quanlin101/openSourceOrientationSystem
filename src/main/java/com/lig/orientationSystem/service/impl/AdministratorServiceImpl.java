@@ -296,7 +296,8 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
 
     //编辑岗位
     public MethodPassWrapper changeInner(String postName, String name, String desc) {
-        System.out.println(StationList.arrayList);
+//        System.out.println(StationList.arrayList);
+//        System.out.println("**************************\n\n\n");
         Station newStation = new Station(name, desc);
         boolean change = stationList.change(postName, newStation);
         if (!change) {
@@ -304,7 +305,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             methodPassWrapper.setDesc("岗位修改失败");
             return methodPassWrapper;
         }
-        System.out.println(StationList.arrayList);
+//        System.out.println(StationList.arrayList);
         methodPassWrapper.setSuccess(true);
         return methodPassWrapper;
     }
