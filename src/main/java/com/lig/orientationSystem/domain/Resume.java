@@ -54,7 +54,7 @@ public class Resume implements Serializable {
     @TableField("`fileURL`")
     private String fileURL;
     //提交简历时间
-    private Date submit_time;
+    private Date submitTime;
     //QQ
     private String qq;
     //简历所属项目
