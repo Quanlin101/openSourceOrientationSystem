@@ -28,8 +28,7 @@ public class Resume implements Serializable {
     private Integer resumeId;
     //面试官 使用masterId确定
     @TableField(exist = false)
-    @JsonIgnore
-    private Interviewer interviewer;
+    private String  interviewer;
     //投递者电话
     private String phoneNumber;
     //了解为之信息来源

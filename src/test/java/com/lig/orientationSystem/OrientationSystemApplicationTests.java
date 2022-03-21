@@ -2,6 +2,7 @@ package com.lig.orientationSystem;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lig.orientationSystem.dao.AdministratorMapper;
 import com.lig.orientationSystem.dao.IntervieweeMapper;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
@@ -11,10 +12,13 @@ import com.lig.orientationSystem.domain.StationList;
 import com.lig.orientationSystem.service.impl.AdministratorServiceImpl;
 import com.lig.orientationSystem.service.impl.IntervieweeServiceImpl;
 import com.lig.orientationSystem.service.impl.InterviewerServiceImpl;
+import com.lig.orientationSystem.service.impl.OssUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,7 +49,6 @@ class OrientationSystemApplicationTests {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("123");
         System.out.println(arrayList.size());
-        System.out.println(arrayList.get(1));
     }
 
     @Autowired
@@ -86,6 +89,7 @@ class OrientationSystemApplicationTests {
         intervieweeService.submit(resume);
 //        intervieweeMapper.distributeResume(1, "后端");
     }
+
     @Test
     void test6() {
         Station station = new Station();
@@ -93,5 +97,26 @@ class OrientationSystemApplicationTests {
         station.setName("运营");
         administratorService.deleteStation(station);
         System.out.println(StationList.arrayList);
+    }
+
+    @Autowired
+    OssUtils ossUtils;
+
+    @Test
+    void test7() {
+        Resume resume = new Resume();
+        resume.setName("wql");
+        MultipartFile file = null;
+        MethodPassWrapper methodPassWrapper = ossUtils.upload(file,resume.getName());
+        System.out.println(methodPassWrapper.getDesc());
+    }
+    @Test
+    void test8(){
+        administratorService.forceUpdate();
+    }
+    @Test
+    void test9(){
+        IPage<Resume> resumeIPage = administratorService.readResume(1, 5, "2022春招", "后端", 1);
+        System.out.println(resumeIPage);
     }
 }

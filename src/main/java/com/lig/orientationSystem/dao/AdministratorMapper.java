@@ -19,10 +19,17 @@ import java.util.ArrayList;
 public interface AdministratorMapper extends BaseMapper<Administrator> {
 
     //查看简历
-    @Select("select * from resume where project = #{project} and station = #{station}")
+    @Select("SELECT * FROM " +
+            "(select resume.*, interviewer.`name` interviewer from resume left outer join interviewer " +
+            "on resume.station = #{station} " +
+            "and interviewer.`name` = (select `name` from interviewer where interviewer_id = (select interviewer_id from interviewer_resume where resume_id = resume.resume_id)))" +
+            "l1 WHERE interviewer is not NULL and project = #{project}")
     IPage<Resume> readResumeAllStatus(Page<Resume> page, String station, String project);
-    @Select("select * from resume " +
-            "where project = #{project} and station = #{station} " +
+    @Select("SELECT * FROM  " +
+            "(select resume.*, interviewer.`name` interviewer from resume left outer join interviewer " +
+            "on resume.station = #{station} " +
+            "and interviewer.`name` = (select `name` from interviewer where interviewer_id = (select interviewer_id from interviewer_resume where resume_id = resume.resume_id)))" +
+            "l1 WHERE interviewer is not NULL and project = #{project} " +
             "and checked = #{checked} and interview = #{interview} and pass = #{pass}")
     IPage<Resume> readResume(Page<Resume> page, String project, String station, boolean checked, boolean interview, boolean pass);
 

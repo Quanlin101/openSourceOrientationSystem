@@ -164,6 +164,9 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             }
             resumeIPage = administratorMapper.readResume(page, projectName, station, checked, interview, pass);
         }
+
+        //给简历添加面试官
+
         return resumeIPage;
     }
 
