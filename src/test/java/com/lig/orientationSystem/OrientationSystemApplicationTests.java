@@ -136,4 +136,19 @@ class OrientationSystemApplicationTests {
         station.setName("0.0");
         log.warn("station:{}",station);
     }
+    @Test
+    void test12(){
+        intervieweeMapper.updateResumeNumber(1,"lig..Wen");
+    }
+
+    @Autowired
+    AdministratorMapper administratorMapper;
+    //重置
+    @Test
+    void test13(){
+        ArrayList<String> userIdList = administratorMapper.getAllUserId();
+        for (String userId: userIdList) {
+            administratorMapper.resetUndoneNumber(userId);
+        }
+    }
 }

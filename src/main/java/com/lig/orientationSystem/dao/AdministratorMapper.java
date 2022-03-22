@@ -113,4 +113,17 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     ArrayList<PushInCountDTO> selectPushInMan();
 
 
+    /**
+     *
+     * 维护方法，本地调test用
+     */
+    @Select("select user_id from interviewer")
+    ArrayList<String> getAllUserId();
+
+    @Update("update interviewer set undone_number = " +
+            "(SELECT count(*) FROM " +
+            "(SELECT * FROM `resume` where (SELECT interviewer_id FROM interviewer_resume WHERE interviewer_resume.resume_id = resume.resume_id)" +
+            " =  (SELECT interviewer_id FROM interviewer where interviewer.user_id = #{userId}) and interview = 0)t1) " +
+            "where user_id = #{userId}")
+    void resetUndoneNumber(String userId);
 }

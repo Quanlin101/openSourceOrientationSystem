@@ -75,10 +75,12 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
         //数据库受影响的行数
         int insert = intervieweeMapper.insert(resume);
         boolean distributeResume = intervieweeMapper.distributeResume(resume.getResumeId(), resume.getStation());
-        boolean updateResumeNumber = intervieweeMapper.updateResumeNumber(resume.getResumeId());
+        //获取分发完成的userId
+        String userId = intervieweeMapper.selectUserId(resume.getResumeId());
+        //更新面试官简历数量
+        boolean updateResumeNumber = intervieweeMapper.updateResumeNumber(resume.getResumeId(),userId);
 
         //获取分发完简历面试官的user_ id,进行消息推送
-        String userId = intervieweeMapper.selectUserId(resume.getResumeId());
         boolean sendMessage = interviewerService.sendMessage(userId, resume);
         interviewerService.addUndone(userId);
 

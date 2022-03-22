@@ -24,8 +24,10 @@ public interface IntervieweeMapper extends BaseMapper<Resume> {
     @Insert("INSERT INTO interviewer_resume   VALUES(((SELECT MIN(interviewer_id) FROM ( SELECT interviewer_id FROM interviewer WHERE resume_number = (SELECT MIN(resume_number) FROM interviewer where receive = 1 and station = #{station}) and receive = 1 and station = #{station}) t2 )),  #{resumeId})")
     boolean distributeResume(int resumeId, String station);
     //分发更新面试官的简历数量
-    @Update("update interviewer set resume_number = resume_number + 1, undone_number = undone_number + 1 where interviewer_id = (select interviewer_id from interviewer_resume where resume_id = #{resumeId})")
-    boolean updateResumeNumber(int resumeId);
+    @Update("update interviewer set resume_number = resume_number + 1, undone_number = (SELECT count(*) FROM " +
+            "(SELECT * FROM `resume` where (SELECT interviewer_id FROM interviewer_resume WHERE interviewer_resume.resume_id = resume.resume_id) =  (SELECT interviewer_id FROM interviewer where interviewer.user_id = #{userId}) and interview = 0)t1)" +
+            " where user_id = #{userId}")
+    boolean updateResumeNumber(int resumeId,String userId);
 
     @Select("select * from resume where `phone_number`= #{phoneNumber} and project = #{project}")
     Resume queryResume(String phoneNumber,String project);
