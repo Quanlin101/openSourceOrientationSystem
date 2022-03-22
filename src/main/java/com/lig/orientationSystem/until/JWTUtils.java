@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lig.orientationSystem.until.error.GlobalException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +15,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class JWTUtils {
-    private static final Logger logger= LoggerFactory.getLogger(JWTUtils.class);
-
+//    private static final Logger logger= LoggerFactory.getLogger(JWTUtils.class);
     //密钥
     private static final String SECRET= "violet";
     //过期时间 两个小时
@@ -42,22 +43,19 @@ public class JWTUtils {
     public static Map<String, Claim> validateToken(String token){
         DecodedJWT jwt=null;
         try {
-            if (token == null){
-                System.out.println("token为空");
-            }
             JWTVerifier verifier=JWT.require(Algorithm.HMAC256(SECRET)).build();
             jwt=verifier.verify(token);
 
         }
         catch (TokenExpiredException e){
-            logger.error(e.getMessage());
-            logger.error("token过期");
+            log.error(e.getMessage());
+            log.error("token过期 token:{}", token);
 //            throw new GlobalException("token过期");
             return null;
         }
         catch (Exception e){
-            logger.error(e.getMessage());
-            logger.error("token解码异常");
+            log.error(e.getMessage());
+            log.error("token解码未知异常,速速查看 token:{}", token);
             throw new GlobalException("token解码异常");
         }
         return jwt.getClaims();

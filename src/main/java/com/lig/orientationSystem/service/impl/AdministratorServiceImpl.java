@@ -9,6 +9,7 @@ import com.lig.orientationSystem.dao.AdministratorMapper;
 import com.lig.orientationSystem.domain.*;
 import com.lig.orientationSystem.service.AdministratorService;
 import com.lig.orientationSystem.until.AccessTokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+@Slf4j
 @Service
 @Transactional
 public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, Administrator> implements AdministratorService {
@@ -96,16 +98,17 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         int postNumber = administratorMapper.selectProject(projectName);
         if (postNumber == 1){
             methodPassWrapper.setSuccess(false);
-            methodPassWrapper.setDesc("已有该项目，不能重复添加");
+            methodPassWrapper.setDesc("已有该项目"+projectName+"，不能重复添加");
+            log.warn("项目添加的名字已有 projectName：{}",projectName);
             return methodPassWrapper;
         }
         administratorMapper.addProject(projectName);
         int projectNumber = administratorMapper.selectProject(projectName);
 
-        System.out.println(projectNumber);
         if (projectNumber != 1){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("数据更新异常，添加失败");
+            log.error("数据库并未添加上应当可以添加的项目，速速检查:( projectName:{}",projectName);
             return methodPassWrapper;
         }
         methodPassWrapper.setSuccess(true);
@@ -209,6 +212,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             userid = String.valueOf(jsonBody.get("userid"));
             methodPassWrapper.setData(userid);
         } else {
+            log.warn("无法通过手机号查询到面试官在企业微信的信息 phoneNumber:{}",phoneNumber);
             methodPassWrapper.setSuccess(false);
         }
         return methodPassWrapper;
@@ -229,6 +233,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("已经是面试官了呦^^" +
                                         "\n不能重复添加");
+            log.warn("一个面试官在数据库中只有一个位置，不能一个面试官重复添加或者手机号复用 phoneNumber:{}",interviewer.getPhoneNumber());
             return methodPassWrapper;
         }
         administratorMapper.addInterviewer(interviewer.getUserId(), interviewer.getPhoneNumber(), interviewer.getName(), interviewer.getStation());
@@ -243,6 +248,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         if (interviewer != null) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("删除失败");
+            log.error("删除面试官失败，可能是测试时手机号复用的原因 phoneNumber:{}",phoneNumber);
             return methodPassWrapper;
         }
         methodPassWrapper.setSuccess(true);
@@ -273,10 +279,12 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     public MethodPassWrapper changeStation(int code, int number) {
         if (code == 0&&number==1){
             methodPassWrapper.setSuccess(false);
+            log.warn("第一个岗位不能再向上移动");
             methodPassWrapper.setDesc("已经不能向上移了呦^^");
             return methodPassWrapper;
         }else if (code == 0&&number==stationList.arrayList.size()){
             methodPassWrapper.setSuccess(false);
+            log.warn("最后一个岗位不能向下移动");
             methodPassWrapper.setDesc("已经不能向下移了呦^^");
             return methodPassWrapper;
         }
@@ -287,6 +295,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         } else {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("code错误，请检查code");
+            log.error("判断向上还是向下移动的code格式不对，和前端交流 code:{}",code);
             return methodPassWrapper;
         }
         methodPassWrapper.setSuccess(true);
@@ -303,6 +312,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         if (!change) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("岗位修改失败");
+            log.error("岗位之前的名字和内存中的名字不相同，速速检查，隐患！！！station:{}",newStation);
             return methodPassWrapper;
         }
 //        System.out.println(StationList.arrayList);
@@ -316,6 +326,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         if (exist) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("该岗位已存在\n:(");
+            log.warn("重复添加 station:{}",station);
             return methodPassWrapper;
         }
         stationList.arrayList.add(station);
@@ -329,12 +340,15 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         if (!exist) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("该岗位不存在\n:(");
+            log.error("删除不存在的岗位，内存中岗位和前端的不符，速速检查 station:{}",station);
             return methodPassWrapper;
         }
         boolean delete = stationList.delete(station);
         if (!delete){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("删除失败，未查询到岗位\n:(");
+            log.error("删除不存在的岗位，内存中岗位和前端的不符，速速检查 station:{}",station);
+            return methodPassWrapper;
         }
         methodPassWrapper.setSuccess(true);
         return methodPassWrapper;
@@ -345,6 +359,5 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     public void refreshChange() {
         administratorMapper.refreshChange();
     }
-
 
 }

@@ -10,6 +10,7 @@ import com.lig.orientationSystem.domain.MethodPassWrapper;
 import com.lig.orientationSystem.domain.Resume;
 import com.lig.orientationSystem.service.InterviewerService;
 import com.lig.orientationSystem.until.AccessTokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Transactional
 @Service
 public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Interviewer> implements InterviewerService {
@@ -64,11 +66,14 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         if (evaluation == null) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("面评不能为空");
+            log.warn("面评为空，应该前端判断0.0");
+            return methodPassWrapper;
         } else {
             boolean saveEvaluation = interviewerMapper.saveEvaluation(resumeId, evaluation, pass);
 
             if (!saveEvaluation) {
                 methodPassWrapper.setSuccess(false);
+                log.error("面评持久到数据库中失败，去查SQL resumeId:{}",resumeId);
                 methodPassWrapper.setDesc("持久化面评失败");
                 return methodPassWrapper;
             }
@@ -95,6 +100,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         if (!send){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("移交简历无法推送:(");
+            log.error("面试官推送简历接口失效，检查推送配置 resumeId：{}",resumeId);
             return methodPassWrapper;
         }
 
@@ -176,6 +182,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         JSONObject jsonBody = JSONObject.parseObject(body);
         String errcode = jsonBody.getString("errcode");
         if (!"0".equals(errcode)) {
+            log.error("消息推送wx返回错误代码 jsonBody:{}",jsonBody);
             return false;
         }
         return true;
@@ -209,6 +216,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
 //        System.out.println(jsonObject.toString());
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, jsonObject.toString(), String.class);
 //        System.out.println(responseEntity);
+        log.info("8:00定时推送");
     }
 
 
@@ -218,6 +226,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         if (resume == null) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("简历id异常，已读更新失败");
+            log.error("简历设置已面试失败 resumeId:{}",resumeId);
             return methodPassWrapper;
         }
         interviewerMapper.setChecked(resumeId);
@@ -225,6 +234,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         if (!resume.isChecked()) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("持久化数据异常，已读更新失败");
+            log.error("数据库更改resume的checked失败 amazing resumeId:{}",resumeId);
             return methodPassWrapper;
         }
         methodPassWrapper.setSuccess(true);

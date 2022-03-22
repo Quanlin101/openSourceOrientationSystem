@@ -1,12 +1,14 @@
 package com.lig.orientationSystem.until;
 
 import com.lig.orientationSystem.until.error.GlobalException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @EnableScheduling
+@Slf4j
 //定时器
 // https://blog.csdn.net/Peng945/article/details/95518455
 public class RefreshAccess {
@@ -16,6 +18,7 @@ public class RefreshAccess {
     public void setAccessToken() {
         String access_token = AccessTokenUtils.setToken();
         if (access_token == null){
+            log.error("自动更新出错，检查access_token获取的配置");
             throw new GlobalException("更新access_token出错");
         }
     }

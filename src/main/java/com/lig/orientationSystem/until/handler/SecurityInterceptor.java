@@ -68,6 +68,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
                 }
             }
 //            System.out.println(token);
+            //此时token应该不可能为空
             Map<String, Claim> datas = JWTUtils.validateToken(token);
             if (datas == null){
                 response.setCharacterEncoding("UTF-8");

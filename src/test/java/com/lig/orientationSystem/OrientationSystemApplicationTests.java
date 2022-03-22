@@ -13,6 +13,7 @@ import com.lig.orientationSystem.service.impl.AdministratorServiceImpl;
 import com.lig.orientationSystem.service.impl.IntervieweeServiceImpl;
 import com.lig.orientationSystem.service.impl.InterviewerServiceImpl;
 import com.lig.orientationSystem.service.impl.OssUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @SpringBootTest
+@Slf4j
 class OrientationSystemApplicationTests {
     @Autowired
     public OSS ossClient;
@@ -77,7 +79,7 @@ class OrientationSystemApplicationTests {
     @Test
     void test5() {
         Resume resume = new Resume();
-        resume.setSubmit_time(new Date());
+        resume.setSubmitTime(new Date());
         resume.setGender("1");
         resume.setGrade("大一");
         resume.setHasPractice(false);
@@ -118,5 +120,20 @@ class OrientationSystemApplicationTests {
     void test9(){
         IPage<Resume> resumeIPage = administratorService.readResume(1, 5, "2022春招", "后端", 1);
         System.out.println(resumeIPage);
+    }
+    @Test
+    void test10(){
+
+        administratorService.changeInner("产品", "产品/运营", "运营");
+        System.out.println("**************************\n\n\n");
+        System.out.println(StationList.arrayList.toString());
+    }
+
+    @Test
+    void test11(){
+        String filename = "wql";
+        Station station = new Station();
+        station.setName("0.0");
+        log.warn("station:{}",station);
     }
 }

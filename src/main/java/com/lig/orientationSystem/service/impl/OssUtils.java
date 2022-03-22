@@ -4,9 +4,11 @@ import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
+@Slf4j
 @Service
 public class OssUtils {
     @Autowired
@@ -35,6 +37,8 @@ public class OssUtils {
         if(multipartFile == null){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("文件不能为空呦^^");
+            log.warn("点击上传了文件但文件为空，文件名为{}",fileName);
+            return methodPassWrapper;
         }
 
         try {
@@ -53,15 +57,18 @@ public class OssUtils {
             oe.printStackTrace();
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("oss上传文件异常，投递失败");
+            log.warn("oss阻止了文件上传，看oss的response");
             return methodPassWrapper;
         }catch (ClientException ce){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("oss上传文件异常，投递失败");
-            ce.printStackTrace();
+            log.warn("oss阻止了文件上传，看oss的response");
+            return methodPassWrapper;
         } catch (IOException e) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("未知异常，投递失败");
-            e.printStackTrace();
+            log.error("未知错误，速速检查" , e);
+            return methodPassWrapper;
         }
 //        finally {
 //            //关闭

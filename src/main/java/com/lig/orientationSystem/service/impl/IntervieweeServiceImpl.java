@@ -8,11 +8,13 @@ import com.lig.orientationSystem.domain.Resume;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
 import com.lig.orientationSystem.service.IntervieweeService;
 import com.lig.orientationSystem.service.InterviewerService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Transactional
 @Service
 public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resume> implements IntervieweeService {
@@ -46,6 +48,7 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
         }catch (TooManyResultsException e){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("查询错误，该手机号已投递太多次简历！");
+            log.warn("一个手机号投递简历多次 phoneNumber:{}",resume.getPhoneNumber());
             return methodPassWrapper;
         }
 
@@ -53,6 +56,7 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
             if (Resume.thisTimeProject.equals(existedResume.getProject())){
                 methodPassWrapper.setSuccess(false);
                 methodPassWrapper.setDesc("一个项目每个手机号只能提交一次简历呦\n0.0");
+                log.warn("一个手机号投递简历多次 phoneNumber:{}",resume.getPhoneNumber());
                 return methodPassWrapper;
             }
         }
@@ -64,6 +68,7 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
         if (existInterviewer == 0){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("该岗位暂时没有面试官:(");
+            log.info("向没面试官的岗位投简历了，额 station：{}",resume.getStation());
             return methodPassWrapper;
         }
 
@@ -80,14 +85,17 @@ public class IntervieweeServiceImpl extends ServiceImpl<IntervieweeMapper, Resum
         if (insert != 1 && updateResumeNumber) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("简历写入失败");
+            log.error("数据库resume表更新建立失败 resume:{}",resume);
             return methodPassWrapper;
         } else if (!distributeResume) {
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("简历分发失败");
+            log.error("数据库interviewer和中间表更新失败 resume:{}",resume);
             return methodPassWrapper;
         } else if (!sendMessage){
             methodPassWrapper.setSuccess(false);
             methodPassWrapper.setDesc("面试官推送失败");
+            log.error("简历的信息没有进行推送 resume:{}",resume);
             return methodPassWrapper;
         }
         methodPassWrapper.setSuccess(true);
