@@ -74,6 +74,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         messageFromList.add("冬令营/夏令营");
         messageFromList.add("自媒体");
         messageFromList.add("海报");
+        messageFromList.add("其他自媒体");
         messageFromList.add("其他");
         ArrayList<MessageFromDTO> messageFromDTOS = new ArrayList<>();
         int total = administratorMapper.selectTotal();
