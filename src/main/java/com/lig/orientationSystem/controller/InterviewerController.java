@@ -26,6 +26,11 @@ public class InterviewerController {
     @Autowired
     InterviewerServiceImpl interviewerService;
 
+    @GetMapping
+    public R redirect(){
+        return R.ok();
+    }
+
     //查看刚发过来的简历设置已读
     @GetMapping("/read/{resumeId}")
     public R setRead(@PathVariable String resumeId){
