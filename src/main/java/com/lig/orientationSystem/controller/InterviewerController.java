@@ -27,23 +27,28 @@ public class InterviewerController {
     InterviewerServiceImpl interviewerService;
 
     @GetMapping
-    public R redirect(){
-        return R.ok();
+    public R redirect(@RequestParam int resumeId) {
+        MethodPassWrapper hasResume = interviewerService.getResume(resumeId);
+        if (!hasResume.isSuccess()){
+            return R.error(hasResume.getDesc());
+        }
+        return R.ok((Resume)hasResume.getData());
     }
 
     //查看刚发过来的简历设置已读
     @GetMapping("/read/{resumeId}")
-    public R setRead(@PathVariable String resumeId){
+    public R setRead(@PathVariable String resumeId) {
 
 //        System.out.println(resumeId);
         interviewerService.setRead(resumeId);
         return R.ok();
     }
+
     //面试
     @GetMapping("/check/{resumeId}")
-    public R setCheck(@PathVariable int resumeId){
+    public R setCheck(@PathVariable int resumeId) {
         MethodPassWrapper methodPassWrapper = interviewerService.setCheck(resumeId);
-        if (!methodPassWrapper.isSuccess()){
+        if (!methodPassWrapper.isSuccess()) {
             return R.error(methodPassWrapper.getDesc());
         }
         return R.ok();
@@ -53,7 +58,7 @@ public class InterviewerController {
     //分页查询简历
     //未读，未提交面评，已处理
     @GetMapping("/{current}/{size}/{status}")
-    public R queryTest(HttpServletRequest request, @PathVariable int current, @PathVariable int size, @PathVariable int status){
+    public R queryTest(HttpServletRequest request, @PathVariable int current, @PathVariable int size, @PathVariable int status) {
         String token = request.getHeader("Authorization");
 //        System.out.println("token:" + token);
         Map<String, Claim> claimMap = JWTUtils.validateToken(token);
@@ -70,7 +75,7 @@ public class InterviewerController {
 
     //提交面评
     @PostMapping
-    public R saveEvaluation(@RequestBody JSONObject jsonObject){
+    public R saveEvaluation(@RequestBody JSONObject jsonObject) {
         int resumeId;
         String evaluation;
         boolean pass;
@@ -79,19 +84,20 @@ public class InterviewerController {
             evaluation = jsonObject.getString("evaluation");
             pass = jsonObject.getBoolean("pass");
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 //            System.out.println(jsonObject);
             return R.error("json有误:)");
         }
         MethodPassWrapper success = interviewerService.saveEvaluation(resumeId, evaluation, pass);
-        if (!success.isSuccess()){
+        if (!success.isSuccess()) {
             return R.error(success.getDesc());
         }
         return R.ok();
     }
+
     //移交面评
     @PostMapping("/change")
-    public R changeInterviewer(HttpServletRequest request, @RequestBody JSONObject jsonObject){
+    public R changeInterviewer(HttpServletRequest request, @RequestBody JSONObject jsonObject) {
         String token = request.getHeader("Authorization");
         System.out.println("token:" + token);
         Map<String, Claim> claimMap = JWTUtils.validateToken(token);
@@ -99,7 +105,7 @@ public class InterviewerController {
         String userId = claimMap.get("UserId").asString();
         Interviewer interviewer = interviewerService.getInterviewerByUserId(userId);
 //        System.out.println(interviewer.toString());
-        if (interviewer == null){
+        if (interviewer == null) {
             return R.error("移交失败，UserId有误");
         }
         String postPhoneNumber = interviewer.getPhoneNumber();
@@ -109,13 +115,13 @@ public class InterviewerController {
         try {
             phoneNumber = jsonObject.getString("phoneNumber");
             resumeId = jsonObject.getInteger("resumeId");
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return R.error("json有误:)");
         }
 //        System.out.println("0.0");
         MethodPassWrapper methodPassWrapper = interviewerService.changeInterviewer(postPhoneNumber, phoneNumber, resumeId);
 //        System.out.println("0.0");
-        if (!methodPassWrapper.isSuccess()){
+        if (!methodPassWrapper.isSuccess()) {
             return R.error(methodPassWrapper.getDesc());
         }
         return R.ok();

@@ -61,6 +61,22 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         interviewerMapper.setRead(resumeId);
     }
 
+    //面评前跳转获取简历信息
+    public MethodPassWrapper getResume(int resumeId) {
+        Resume resume = interviewerMapper.selectResumeById(resumeId);
+        if (resume == null){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("简历不存在Ove");
+            return methodPassWrapper;
+        }
+        else {
+            methodPassWrapper.setSuccess(true);
+            methodPassWrapper.setData(resume);
+            return methodPassWrapper;
+        }
+    }
+
+
     //写面评 + 是否通过
     public MethodPassWrapper saveEvaluation(int resumeId, String evaluation, boolean pass) {
         if (evaluation == null) {
@@ -159,8 +175,7 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
                     "\nQQ:" + resume.getQq() +
                     "\n自述:" + resume.getPractice() +
                     "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/read?resumeId=" + resume.getResumeId() + "\">点击已查看</a>" +
-                    "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/fill?name=" + resume.getName() + "&gender=" + resume.getGender() +
-                    "&major=" + resume.getMajor() + "&resumeId=" + resume.getResumeId() + "&grade=" + resume.getGrade() + "\">点击面评</a>"
+                    "\n<a href=\"https://orientation-system.wizzstudio.com/#/interviewer/fill?"+ "resumeId=" + resume.getResumeId()  + "\">点击面评</a>"
 
             );
         }
@@ -245,5 +260,6 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
     public void addUndone(String userId) {
         interviewerMapper.addUndone(userId);
     }
+
 
 }
