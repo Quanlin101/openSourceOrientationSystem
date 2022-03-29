@@ -26,8 +26,9 @@ public class InterviewerController {
     @Autowired
     InterviewerServiceImpl interviewerService;
 
-    @GetMapping("/{resumeId}")
-    public R redirect(@PathVariable int resumeId) {
+    @PassToken
+    @GetMapping
+    public R redirect(@RequestParam int resumeId) {
         MethodPassWrapper hasResume = interviewerService.getResume(resumeId);
         if (!hasResume.isSuccess()){
             return R.error(hasResume.getDesc());
