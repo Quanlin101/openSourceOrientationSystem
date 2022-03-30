@@ -26,15 +26,7 @@ public class InterviewerController {
     @Autowired
     InterviewerServiceImpl interviewerService;
 
-    @PassToken
-    @GetMapping("/{resumeId}")
-    public R redirect(@PathVariable int resumeId) {
-        MethodPassWrapper hasResume = interviewerService.getResume(resumeId);
-        if (!hasResume.isSuccess()){
-            return R.error(hasResume.getDesc());
-        }
-        return R.ok((Resume)hasResume.getData());
-    }
+
 
     //查看刚发过来的简历设置已读
     @GetMapping("/read/{resumeId}")
@@ -72,6 +64,17 @@ public class InterviewerController {
 //        String userId = "Lig..Wen";
         IPage<Resume> resumeIPage = interviewerService.readResume(userId, current, size, status);
         return R.ok(resumeIPage);
+    }
+
+    //提交面评前的跳转请求
+    @PassToken
+    @GetMapping("/resumeData/{resumeId}")
+    public R redirect(@PathVariable int resumeId) {
+        MethodPassWrapper hasResume = interviewerService.getResume(resumeId);
+        if (!hasResume.isSuccess()){
+            return R.error(hasResume.getDesc());
+        }
+        return R.ok((Resume)hasResume.getData());
     }
 
     //提交面评
