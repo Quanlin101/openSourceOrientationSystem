@@ -67,7 +67,7 @@ public class InterviewerController {
     }
 
     //提交面评前的跳转请求
-    @PassToken
+//    @PassToken
     @GetMapping("/resumeData/{resumeId}")
     public R redirect(@PathVariable int resumeId) {
         MethodPassWrapper hasResume = interviewerService.getResume(resumeId);
