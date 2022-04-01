@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lig.orientationSystem.controller.dto.*;
 import com.lig.orientationSystem.dao.AdministratorMapper;
+import com.lig.orientationSystem.dao.InterviewerMapper;
 import com.lig.orientationSystem.domain.*;
 import com.lig.orientationSystem.service.AdministratorService;
 import com.lig.orientationSystem.until.AccessTokenUtils;
@@ -244,7 +245,6 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
 
     //删除面试官
     public MethodPassWrapper deleteInterviewer(String phoneNumber) {
-        administratorMapper.deleteInterviewer(phoneNumber);
         Interviewer interviewer = administratorMapper.selectByPhone(phoneNumber);
         if (interviewer != null) {
             methodPassWrapper.setSuccess(false);
@@ -252,6 +252,15 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             log.error("删除面试官失败，可能是测试时手机号复用的原因 phoneNumber:{}",phoneNumber);
             return methodPassWrapper;
         }
+        int hasResume = administratorMapper.hasResume(interviewer.getInterviewerId());
+        if (hasResume!=0){
+            methodPassWrapper.setSuccess(false);
+            methodPassWrapper.setDesc("改面试官仍有简历（包括不可见的），请推送简历后或者联系后端删除");
+            log.error("改面试官仍有简历（包括不可见的），请推送简历后或者联系后端删除 interviewerId:{}",interviewer.getInterviewerId());
+            return methodPassWrapper;
+        }
+        administratorMapper.deleteInterviewer(phoneNumber);
+
         methodPassWrapper.setSuccess(true);
         return methodPassWrapper;
     }

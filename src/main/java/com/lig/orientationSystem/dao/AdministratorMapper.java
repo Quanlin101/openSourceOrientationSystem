@@ -50,6 +50,9 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
     @Insert("insert into interviewer(user_id, phone_number, name, station) values(#{UserId}, #{phoneNumber}, #{name}, #{station})")
     void addInterviewer(String UserId, String phoneNumber,String name, String station);
 
+    //查询被删除面试官是否还有简历
+    @Select("select count(*) from interviewer_resume where interviewer_id = #{interviewerId}")
+    int hasResume(int interviewerId);
     //删除面试官
     @Delete("delete from interviewer where phone_number = #{phoneNumber}")
     boolean deleteInterviewer(String phoneNumber);
