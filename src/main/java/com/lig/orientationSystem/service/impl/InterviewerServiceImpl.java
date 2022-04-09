@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lig.orientationSystem.dao.AdministratorMapper;
 import com.lig.orientationSystem.dao.InterviewerMapper;
 import com.lig.orientationSystem.domain.Interviewer;
 import com.lig.orientationSystem.domain.MethodPassWrapper;
@@ -18,6 +19,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Transactional
@@ -202,9 +205,17 @@ public class InterviewerServiceImpl extends ServiceImpl<InterviewerMapper, Inter
         return true;
     }
 
-    //定时推送仍有未处理简历的面试官 没查看没面评的都推送！
+    //定时推送仍有未处理简历的面试官 没查看没面评的都推送！ 附加： 更新有所有面试官未处理简历数量
+    @Autowired
+    AdministratorMapper administratorMapper;
     @Scheduled(cron = "0 0 8 * * ?")
     public void delayEval() {
+        //附加： 更新有所有面试官未处理简历数量
+        ArrayList<String> userIdList = administratorMapper.getAllUserId();
+        for (String userId: userIdList) {
+            administratorMapper.resetUndoneNumber(userId);
+        }
+
         String access_token = AccessTokenUtils.access_token;
         String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="
                 + access_token;
