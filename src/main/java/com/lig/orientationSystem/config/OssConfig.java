@@ -14,7 +14,7 @@ public class OssConfig {
     //访问密钥
     private String accessKeyId;
     private String accessKeySecret;
-    //bucket的名字
+    //bucket的名字 用的时候有问题，暂时弃用在oss中选桶存储
     private String bucketName;
     //访问域名
     private String endpoint;
