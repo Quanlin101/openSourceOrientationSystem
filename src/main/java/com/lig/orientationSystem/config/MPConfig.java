@@ -12,7 +12,7 @@ public class MPConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        //乐观锁
+        //乐观锁 没有用到0.0
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         //分页
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
