@@ -19,7 +19,7 @@ import java.util.Map;
 public class JWTUtils {
 //    private static final Logger logger= LoggerFactory.getLogger(JWTUtils.class);
     //密钥
-    private static final String SECRET= "violet";
+    private static final String SECRET= "yourSecret";
     //过期时间 两个小时
     private static final long EXPIRATION = 7200L;//秒
 

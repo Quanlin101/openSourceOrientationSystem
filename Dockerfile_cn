@@ -3,7 +3,7 @@ WORKDIR /build/
 COPY settings.xml /usr/share/maven/conf/settings.xml
 COPY pom.xml /build/
 COPY src /build/src/
-COPY src/main/resources/prod.yaml /build/src/main/resources/application.yaml
+COPY src/main/resources/application.yaml /build/src/main/resources/application.yaml
 RUN mvn package -Dmaven.test.skip=true
 FROM openjdk:11
 WORKDIR /root

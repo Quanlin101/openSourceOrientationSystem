@@ -1,6 +1,6 @@
 #版本号
 set:
-  version: 22.5.9.1
+  version: 22.5.9.2
 
 logging:
   file:
@@ -20,7 +20,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://rm-bp1wlxb572rw67ecvho.mysql.rds.aliyuncs.com:3306/orientation-system
     username: orientation_system
-    password: ${{secrets.DATABASE_SECRET}}
+    password:
 
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
@@ -48,16 +48,18 @@ file:
     # 对应oss的bucket名称
     bucket-name: orientation-system
     # 操作oss的用户密钥id
-    access-key-id: LTAI5t9KJijtYF2fsih2kiPi
+    access-key-id:
     # 操作oss的用户密钥密码
-    access-key-secret: ${{secrets.OSS_ACCESS_KEY_SECRET}}
+    access-key-secret:
+
+
     #private  String filehost 目录;
 #    filehost: practice
 
 wx:
   #企业id
-  corpid: wwe0d87bd068758439
+  corpid:
   #应用的通行证
-  corpsecret: ${{secrets.WX_ORPSECRET}}
+  corpsecret:
   #应用id
-  agentid: 1000003
+  agentid:

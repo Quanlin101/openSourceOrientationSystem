@@ -10,9 +10,15 @@ import org.springframework.web.client.RestTemplate;
 public class AccessTokenUtils {
     static RestTemplate restTemplate = new RestTemplate();
 //    @Value("${wx.corpid}") 不支持静态属性！
-    public static String corpid = "wwe0d87bd068758439";
-//    @Value("${wx.corpsecret}")
-    public static String corpsecret = "8rzkCkSRHCIVeo6msm2atNrYb_vEYsMtbO3wQmqet2A";
+    public static String corpid = "corpid";
+//    @Value("${wx.corpsecret}").
+
+//    一个没解决的问题，在初始项目开源的时候遇到，导致只能clone开源:(
+    /**
+     * 如果这里不设置static并用value注入，依然不能用 git 的action secret，
+     * 貌似是因为action secret 注入时机比spring autowire晚
+     */
+    public static String corpsecret = "corpsecret";
 
     public static String access_token = setToken();
 
