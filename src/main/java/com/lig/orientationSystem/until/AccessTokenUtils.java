@@ -12,7 +12,7 @@ public class AccessTokenUtils {
 //    @Value("${wx.corpid}") 不支持静态属性！
     public static String corpid = "wwe0d87bd068758439";
 //    @Value("${wx.corpsecret}")
-    public static String corpsecret;
+    public static String corpsecret = "8rzkCkSRHCIVeo6msm2atNrYb_vEYsMtbO3wQmqet2A";
 
     public static String access_token = setToken();
 
