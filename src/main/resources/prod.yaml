@@ -20,7 +20,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://rm-bp1wlxb572rw67ecvho.mysql.rds.aliyuncs.com:3306/orientation-system
     username: orientation_system
-    password: ymyxpwVyykLFy8
+    password: ${{secrets.DATABASE_SECRET}}
 
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
@@ -50,7 +50,7 @@ file:
     # 操作oss的用户密钥id
     access-key-id: LTAI5t9KJijtYF2fsih2kiPi
     # 操作oss的用户密钥密码
-    access-key-secret: U8w36el2tg1PqD0kJ3M9xzyNNIgNI1
+    access-key-secret: &{{secrets.OSS_ACCESS_KEY_SECRET}}
     #private  String filehost 目录;
 #    filehost: practice
 
@@ -58,6 +58,6 @@ wx:
   #企业id
   corpid: wwe0d87bd068758439
   #应用的通行证
-  corpsecret: 8rzkCkSRHCIVeo6msm2atNrYb_vEYsMtbO3wQmqet2A
+  corpsecret: ${{secrets.WX_ORPSECRET}}
   #应用id
   agentid: 1000003
