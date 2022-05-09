@@ -11,17 +11,17 @@ public class AccessTokenUtils {
     static RestTemplate restTemplate = new RestTemplate();
 //    @Value("${wx.corpid}") 不支持静态属性！
     public static String corpid = "wwe0d87bd068758439";
-    @Value("${wx.corpsecret}")
-    public String corpsecret;
+//    @Value("${wx.corpsecret}")
+    public static String corpsecret = ${{secrets.WX_CORPSERCET}};
 
-    public static String access_token;
+    public static String access_token = setToken();
 
-    public String setToken(){
+    public static String setToken(){
 
         String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="
                 + AccessTokenUtils.corpid
                 +"&corpsecret="
-                +this.corpsecret;
+                +AccessTokenUtils.corpsecret;
 //        System.out.println(AccessTokenUtils.corpid);
         ResponseEntity<String> result = restTemplate.getForEntity(url, String.class);
         String body = result.getBody();
