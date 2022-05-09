@@ -14,6 +14,7 @@ docker push registry.cn-chengdu.aliyuncs.com/wizz-project/orientation-system-be
 ## document
 
 https://www.showdoc.com.cn/LigWen/0
+password： wasd123456789
 
 ## other
 
