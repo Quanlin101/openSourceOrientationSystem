@@ -2,6 +2,7 @@ package com.lig.orientationSystem.until;
 
 import com.lig.orientationSystem.until.error.GlobalException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,13 @@ import org.springframework.stereotype.Component;
 //定时器
 // https://blog.csdn.net/Peng945/article/details/95518455
 public class RefreshAccess {
+    @Value("${wx.corpsecret}")
+    String wx_corpsecret;
 
     // 第一次延迟1秒执行，当执行完后7100秒再执行
     @Scheduled(initialDelay = 1000, fixedDelay = 7000 * 1000)
     public void setAccessToken() {
+        AccessTokenUtils.corpsecret  = wx_corpsecret;
         String access_token = AccessTokenUtils.setToken();
         if (access_token == null){
             log.error("自动更新出错，检查access_token获取的配置");
